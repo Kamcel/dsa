@@ -21,7 +21,6 @@ void main() {
   print('Array after removing element at index 1:');
   array.traversal();
 
-  array.search(35);
   print('Searching for 35 in the array: ${array.search(35)}');
   print('Searching for 100 in the array: ${array.search(100)}');
   array.traversal();
