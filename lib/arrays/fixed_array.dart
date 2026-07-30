@@ -115,7 +115,7 @@ size = size - 1
 
   void remove(int index) {
     if (index < 0 || index >= _size) {
-      throw RangeError('Invalid insdex');
+      throw RangeError('Invalid index');
     }
     for (int i = index; i < _size - 1; i++) {
       _storage[i] = _storage[i + 1];
