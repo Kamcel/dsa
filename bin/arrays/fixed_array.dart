@@ -85,14 +85,20 @@ END FOR
 storage[insertionIndex = newValue]
 size = size + 1
  */
-  void insert(int index, T newValue) {
+  void insert(int insertionIndex, T newValue) {
+    //validate index
+    if (insertionIndex < 0 || insertionIndex > _size) {
+      throw RangeError('Invalid index');
+    }
+    //check capacity
     if (_size == capacity) {
       throw StateError('Capacity is full');
     }
-    for (int index = _size - 1; index >= index; index--) {
-      _storage[index + 1] = _storage[index];
+    //shift right
+    for (int i = _size - 1; i >= insertionIndex; i--) {
+      _storage[i + 1] = _storage[i];
     }
-    _storage[index] = newValue;
+    _storage[insertionIndex] = newValue;
     _size++;
   }
 
@@ -112,8 +118,9 @@ size = size - 1
       throw RangeError('Invalid index');
     }
     for (int i = index; i < _size - 1; i++) {
-      _storage[1] = _storage[1 + 1];
+      _storage[1] = _storage[i + 1];
     }
+    //clear last occupied slot
     _storage[_size - 1] = null;
     _size--;
   }
