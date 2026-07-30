@@ -25,10 +25,6 @@ RETURN value at index
  */
 
   T get(int index) {
-    if (_storage.isEmpty) {
-      print('Array is Empty');
-    }
-
     if (index < 0 || index >= _size) {
       throw RangeError('Invalid index');
     }
@@ -48,7 +44,7 @@ SET storage[index]
     if (index < 0 || index >= _size) {
       throw RangeError('Invalid index');
     }
-    newValue = _storage[index]!;
+    _storage[index] = newValue;
   }
 
   /*
@@ -71,6 +67,12 @@ IF current value IS target
 END FOR
 RETURN false
 */
+  bool search(T target) {
+    for (int index = 0; index < _size; index++) {
+      if (_storage[index] == target) return true;
+    }
+    return false;
+  }
 
   /*
 Insert
@@ -84,16 +86,14 @@ storage[insertionIndex = newValue]
 size = size + 1
  */
   void insert(int index, T newValue) {
-    int? insertionIndex;
-    T newValue;
     if (_size == capacity) {
-      throw StackOverflowError();
+      throw StateError('Capacity is full');
     }
-    for (int index = _size - 1; index >= insertionIndex!; index--) {
+    for (int index = _size - 1; index >= index; index--) {
       _storage[index + 1] = _storage[index];
     }
-    _storage[InsertionIndex[0] = newValue];
-    _size = _size + 1;
+    _storage[index] = newValue;
+    _size++;
   }
 
   /* 
@@ -108,13 +108,13 @@ size = size - 1
 */
 
   void remove(int index) {
-    int position;
     if (index < 0 || index >= _size) {
       throw RangeError('Invalid index');
     }
-    for (position = index; position < _size - 2; position++) {
-      _storage[position] = _storage[position + 1];
+    for (int i = index; i < _size - 1; i++) {
+      _storage[1] = _storage[1 + 1];
     }
-    _size = _size - 1;
+    _storage[_size - 1] = null;
+    _size--;
   }
 }
