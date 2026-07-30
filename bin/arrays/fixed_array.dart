@@ -115,10 +115,10 @@ size = size - 1
 
   void remove(int index) {
     if (index < 0 || index >= _size) {
-      throw RangeError('Invalid index');
+      throw RangeError('Invalid insdex');
     }
     for (int i = index; i < _size - 1; i++) {
-      _storage[1] = _storage[i + 1];
+      _storage[i] = _storage[i + 1];
     }
     //clear last occupied slot
     _storage[_size - 1] = null;
