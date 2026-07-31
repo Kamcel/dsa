@@ -1,14 +1,15 @@
 // Start with pseudocode
 // Then code
 
-class FixedArray<T> {
-  final List<T?> _storage;
+class DynamicArray<T> {
+  List<T?> _storage;
   int _size = 0;
-  final int capacity;
 
-  FixedArray({required this.capacity})
-    : _storage = List<T?>.filled(capacity, null, growable: false);
+  DynamicArray({int initalCapacity = 5})
+    : _storage = List<T?>.filled(initalCapacity, null, growable: false);
+
   int get size => _size;
+  bool get isEmpty => _size == 0;
 
   // Operation
   /*
@@ -54,9 +55,47 @@ VISIT storage[index]
 END FOR
  */
 
-  void traversal() {
+  void traverse() {
     for (int index = 0; index < _size; index++) {
       print(_storage[index]);
+    }
+  }
+
+  /*
+resize
+FUNCTION resize()
+newCapacity = storage.length * 2
+newStorage = new array[newCapacity] filled with null 
+FOR i FROM TO size -1
+newStorage[i] = storage[i]
+storage = newStorage
+capacity = newCapacity
+*/
+
+  void resize() {
+    final newCapacity = _storage.length * 2;
+    final newStorage = List<T?>.filled(newCapacity, null, growable: false);
+
+    for (int i = 0; i < _size; i++) {
+      newStorage[i] = _storage[i];
+      _storage = newStorage;
+      _storage.length = newCapacity;
+    }
+  }
+
+  /*
+add
+FUNCTION(newValue)
+IF size == capacity
+resize()
+storage[size] = newValue
+size = size + 1
+*/
+  void add(dynamic newValue) {
+    if (_size == _storage.length) {
+      resize();
+      _storage[_size] = newValue;
+      _size++;
     }
   }
 
@@ -67,6 +106,7 @@ IF current value IS target
 END FOR
 RETURN false
 */
+
   bool search(T target) {
     for (int index = 0; index < _size; index++) {
       if (_storage[index] == target) return true;
@@ -76,30 +116,27 @@ RETURN false
 
   /*
 Insert
+IF index < 0 OR index >= size
 IF size == capacity
-THROW overflow error
-STOP
-FOR index = size -1 DOWN TO  insertionIndex
-storage[index + 1] = storage[index]
-END FOR
-storage[insertionIndex = newValue]
-size = size + 1
+resize()
+//shift to right from the end
+FOR i FROM size DOWN TO index index +1
+  storage[index] = storage[i + 1]
+  storage[index] = newValue
+  size = size + 1
  */
+
   void insert(int insertionIndex, T newValue) {
-    //validate index
     if (insertionIndex < 0 || insertionIndex > _size) {
       throw RangeError('Invalid index');
     }
-    //check capacity
-    if (_size == capacity) {
-      throw StateError('Capacity is full');
+    if (_size == _storage.length) {
+      resize();
+      for (int i = 0; i < _size; i++) {
+        _storage[i] = _storage[i + 1];
+        _size++;
+      }
     }
-    //shift right
-    for (int i = _size - 1; i >= insertionIndex; i--) {
-      _storage[i + 1] = _storage[i];
-    }
-    _storage[insertionIndex] = newValue;
-    _size++;
   }
 
   /* 
@@ -117,10 +154,9 @@ size = size - 1
     if (index < 0 || index >= _size) {
       throw RangeError('Invalid index');
     }
-    for (int i = index; i < _size - 1; i++) {
+    for (int i = index; i < _size; i++) {
       _storage[i] = _storage[i + 1];
     }
-    //clear last occupied slot
     _storage[_size - 1] = null;
     _size--;
   }
