@@ -5,8 +5,8 @@ class DynamicArray<T> {
   List<T?> _storage;
   int _size = 0;
 
-  DynamicArray({int initalCapacity = 5})
-    : _storage = List<T?>.filled(initalCapacity, null, growable: false);
+  DynamicArray({int initialCapacity = 5})
+    : _storage = List<T?>.filled(initialCapacity, null, growable: false);
 
   int get size => _size;
   bool get isEmpty => _size == 0;
@@ -73,14 +73,17 @@ capacity = newCapacity
 */
 
   void resize() {
-    final newCapacity = _storage.length * 2;
-    final newStorage = List<T?>.filled(newCapacity, null, growable: false);
+    final int newCapacity = _storage.length * 2;
+    final List<T?> newStorage = List<T?>.filled(
+      newCapacity,
+      null,
+      growable: false,
+    );
 
     for (int i = 0; i < _size; i++) {
       newStorage[i] = _storage[i];
-      _storage = newStorage;
-      _storage.length = newCapacity;
     }
+    _storage = newStorage;
   }
 
   /*
@@ -91,12 +94,12 @@ resize()
 storage[size] = newValue
 size = size + 1
 */
-  void add(dynamic newValue) {
+  void add(T newValue) {
     if (_size == _storage.length) {
       resize();
-      _storage[_size] = newValue;
-      _size++;
     }
+    _storage[_size] = newValue;
+    _size++;
   }
 
   /* 
@@ -132,11 +135,12 @@ FOR i FROM size DOWN TO index index +1
     }
     if (_size == _storage.length) {
       resize();
-      for (int i = 0; i < _size; i++) {
-        _storage[i] = _storage[i + 1];
-        _size++;
-      }
     }
+    for (int i = _size - 1; i >= insertionIndex; i--) {
+      _storage[i + 1] = _storage[i];
+    }
+    _storage[insertionIndex] = newValue;
+    _size++;
   }
 
   /* 
@@ -154,7 +158,7 @@ size = size - 1
     if (index < 0 || index >= _size) {
       throw RangeError('Invalid index');
     }
-    for (int i = index; i < _size; i++) {
+    for (int i = index; i < _size - 1; i++) {
       _storage[i] = _storage[i + 1];
     }
     _storage[_size - 1] = null;
