@@ -36,8 +36,6 @@
 //   print('Current size of the array: ${array.size}');
 // }
 
-import 'dart:ffi';
-
 import 'package:dsa/arrays/dynamic_array.dart';
 
 void main() {
