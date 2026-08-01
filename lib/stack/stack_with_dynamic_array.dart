@@ -48,7 +48,7 @@ RETURN data.get(data.size - 1)
  */
   T peek() {
     if (isEmpty) {
-      throw StateError('Stack underflow');
+      throw StateError('Stack is Empty');
     }
     return _data.get(_data.size - 1);
   }

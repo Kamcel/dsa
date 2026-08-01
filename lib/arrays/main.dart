@@ -2,7 +2,8 @@
 
 // void main() {
 //   final array = FixedArray<int>(capacity: 5);
-//   array.insert(0, 10);
+//
+//  array.insert(0, 10);
 //   array.insert(1, 20);
 //   array.insert(2, 30);
 //   array.insert(3, 40);
