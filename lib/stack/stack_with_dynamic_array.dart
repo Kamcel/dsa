@@ -67,4 +67,5 @@ RETURN data.size
  */
 
   int get size => _data.size;
+  bool get isNotEmpty => _data.size != 0;
 }

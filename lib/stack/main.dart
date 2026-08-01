@@ -1,4 +1,4 @@
-import 'package:dsa/stack/stack_with_dynamic_array.dart';
+import 'package:dsa/stack/stack_with_link.dart';
 
 void main() {
   final stack = Stack<int>();

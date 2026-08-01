@@ -1,8 +1,6 @@
 //stack_with_link.dart
 class Stack<T> {
-  final List<T> _data;
-
-  Stack({required this._data});
+  final List<T> _data = [];
 
   void push(T newValue) {
     _data.add(newValue);
@@ -25,4 +23,6 @@ class Stack<T> {
   bool get isEmpty => _data.isEmpty;
 
   int get size => _data.length;
+
+  bool get isNotEmpty => _data.isNotEmpty;
 }
