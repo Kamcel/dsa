@@ -1,0 +1,903 @@
+
+html_parts = []
+
+html_parts.append('''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCH 504 — Interactive Membrane Biochemistry</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+:root{--primary:#1a365d;--secondary:#2c5282;--accent:#c53030;--accent2:#dd6b20;--bg:#f7fafc;--card:#fff;--text:#1a202c;--muted:#4a5568;--border:#e2e8f0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+.header{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:2rem;text-align:center;border-bottom:4px solid var(--accent);}
+.header h1{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:.25rem;}
+.header p{opacity:.85;font-size:.9rem;font-weight:300;}
+.nav{display:flex;justify-content:center;background:var(--card);border-bottom:1px solid var(--border);padding:.5rem;gap:.25rem;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.nav button{padding:.75rem 1.25rem;border:none;background:transparent;color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;text-transform:uppercase;letter-spacing:.05em;}
+.nav button:hover{color:var(--primary);}
+.nav button.active{color:var(--primary);border-bottom-color:var(--accent);background:rgba(26,54,93,.03);}
+.content{max-width:1100px;margin:0 auto;padding:2rem;}
+.section{display:none;animation:fadeIn .5s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid var(--border);}
+.card-title{font-size:1.1rem;font-weight:600;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.badge{background:var(--accent);color:white;font-size:.65rem;padding:.2rem .5rem;border-radius:4px;text-transform:uppercase;}
+.controls{display:flex;gap:.75rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
+.btn{padding:.6rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn:hover{background:var(--primary);color:white;border-color:var(--primary);}
+.btn.primary{background:var(--primary);color:white;border-color:var(--primary);}
+.btn.active-btn{background:var(--accent);color:white;border-color:var(--accent);}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0;}
+.info-box{background:linear-gradient(135deg,#ebf8ff 0%,#e6fffa 100%);border-left:4px solid var(--secondary);padding:1rem;border-radius:0 8px 8px 0;}
+.info-box h4{font-size:.8rem;color:var(--primary);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.05em;}
+.info-box p{font-size:.82rem;color:var(--muted);line-height:1.5;}
+.key{background:linear-gradient(135deg,#fff5f5 0%,#fffaf0 100%);border:1px solid #fc8181;border-radius:8px;padding:1rem;margin:1rem 0;}
+.key h4{color:var(--accent);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;}
+.key p{font-size:.9rem;color:var(--text);line-height:1.6;}
+.svg-wrap{width:100%;display:flex;justify-content:center;margin:1rem 0;overflow-x:auto;}
+svg{max-width:100%;height:auto;}
+.step-box{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:var(--bg);border-radius:8px;border:1px solid var(--border);margin:.5rem 0;cursor:pointer;transition:all .2s;}
+.step-box:hover{background:#ebf8ff;border-color:var(--secondary);}
+.step-num{width:28px;height:28px;background:var(--primary);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;}
+@media(max-width:768px){.content{padding:1rem}.header h1{font-size:1.3rem}.nav button{padding:.5rem .7rem;font-size:.65rem}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>BCH 504 &mdash; Membrane Biochemistry</h1>
+  <p>Interactive Course Module | ATBU Biochemistry Programme</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="showSec('overview')">Overview</button>
+  <button onclick="showSec('structure')">Structure</button>
+  <button onclick="showSec('fluidity')">Fluidity</button>
+  <button onclick="showSec('transport')">Transport</button>
+  <button onclick="showSec('mechanisms')">Mechanisms</button>
+  <button onclick="showSec('isolation')">Isolation</button>
+</div>
+
+<div class="content">
+''')
+
+print("Part 1 written, length:", len(html_parts[0]))
+
+
+
+html_parts.append('''
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">The Fluid Mosaic Model</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Proposed by Singer &amp; Nicolson (1972). The plasma membrane is a two-dimensional fluid of lipids and proteins. Hover over components to identify them.</p>
+  
+  <div class="card">
+    <div class="card-title">Interactive Membrane Explorer <span class="badge">Live</span></div>
+    <div class="svg-wrap">
+      <svg id="memSvg" width="720" height="380" viewBox="0 0 720 380">
+        <defs>
+          <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#e53e3e"/><stop offset="100%" style="stop-color:#c53030"/></linearGradient>
+          <linearGradient id="tg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#2d3748"/><stop offset="100%" style="stop-color:#1a202c"/></linearGradient>
+          <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4299e1"/><stop offset="100%" style="stop-color:#2b6cb0"/></linearGradient>
+          <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ed8936"/><stop offset="100%" style="stop-color:#dd6b20"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="720" height="80" fill="#e6fffa" opacity=".3"/>
+        <text x="360" y="25" text-anchor="middle" fill="#2c7a7b" font-size="12" font-weight="600">EXTRACELLULAR SPACE</text>
+        <rect x="0" y="300" width="720" height="80" fill="#faf5ff" opacity=".3"/>
+        <text x="360" y="365" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="600">CYTOSOL</text>
+        <path d="M60 340 Q180 320 300 350 T540 330 T720 345" stroke="#cbd5e0" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+        
+        <g id="uLipids"></g>
+        <g id="lLipids"></g>
+        
+        <g onmouseenter="setLabel('Integral Membrane Protein &mdash; spans entire bilayer')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <rect x="130" y="115" width="40" height="150" rx="20" fill="url(#pg)"/>
+          <ellipse cx="150" cy="115" rx="20" ry="10" fill="#2b6cb0"/>
+          <ellipse cx="150" cy="265" rx="20" ry="10" fill="#2b6cb0"/>
+          <path d="M140 130 Q150 150 140 170 Q150 190 140 210 Q150 230 140 250" stroke="#90cdf4" stroke-width="2" fill="none"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Protein Channel &mdash; allows passive ion flow down gradient')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <rect x="310" y="105" width="50" height="170" rx="25" fill="url(#pg)"/>
+          <ellipse cx="335" cy="105" rx="25" ry="12" fill="#2b6cb0"/>
+          <ellipse cx="335" cy="275" rx="25" ry="12" fill="#2b6cb0"/>
+          <rect x="325" y="130" width="20" height="120" rx="10" fill="#1a365d"/>
+          <circle cx="335" cy="155" r="4" fill="#63b3ed"/><circle cx="335" cy="190" r="4" fill="#63b3ed"/><circle cx="335" cy="225" r="4" fill="#63b3ed"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Transmembrane Receptor &mdash; binds extracellular signals')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <rect x="540" y="120" width="35" height="140" rx="17" fill="url(#pg)"/>
+          <ellipse cx="557.5" cy="120" rx="17.5" ry="8" fill="#2b6cb0"/>
+          <ellipse cx="557.5" cy="260" rx="17.5" ry="8" fill="#2b6cb0"/>
+          <path d="M557 120 L557 90 Q567 80 557 70 Q547 80 557 90" fill="#4299e1" opacity=".7"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Peripheral Protein &mdash; weakly associated via electrostatic interactions')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <ellipse cx="240" cy="285" rx="22" ry="14" fill="#805ad5"/>
+          <ellipse cx="240" cy="278" rx="22" ry="14" fill="#6b46c1"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Cholesterol &mdash; fluidity buffer, organizes lipid rafts')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <polygon points="270,160 280,140 290,160 285,180 275,180" fill="url(#cg)"/>
+          <rect x="278" y="180" width="4" height="40" fill="#ed8936"/>
+        </g>
+        <g onmouseenter="setLabel('Cholesterol &mdash; fluidity buffer')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <polygon points="470,200 480,180 490,200 485,220 475,220" fill="url(#cg)"/>
+          <rect x="478" y="160" width="4" height="40" fill="#ed8936"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Glycoprotein &mdash; cell recognition, immunity, ABO blood groups')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <circle cx="420" cy="100" r="5" fill="#38a169"/><circle cx="430" cy="90" r="4" fill="#48bb78"/>
+          <circle cx="415" cy="85" r="4" fill="#68d391"/><circle cx="425" cy="77" r="3" fill="#9ae6b4"/>
+          <line x1="420" y1="100" x2="420" y2="115" stroke="#38a169" stroke-width="2"/>
+        </g>
+        
+        <g onmouseenter="setLabel('Glycolipid &mdash; carbohydrate on lipid anchor, cell identity')" onmouseleave="setLabel('')" style="cursor:pointer">
+          <circle cx="630" cy="100" r="4" fill="#d69e2e"/><circle cx="638" cy="92" r="3" fill="#ecc94b"/>
+          <circle cx="625" cy="88" r="3" fill="#f6e05e"/><line x1="630" y1="100" x2="630" y2="115" stroke="#d69e2e" stroke-width="2"/>
+        </g>
+        
+        <text id="compLabel" x="360" y="55" text-anchor="middle" fill="var(--primary)" font-size="13" font-weight="600" opacity="0">Hover over a component</text>
+      </svg>
+    </div>
+    
+    <div class="controls">
+      <button class="btn primary" onclick="animDiff()">Animate Diffusion</button>
+      <button class="btn" onclick="resetMem()">Reset</button>
+    </div>
+    
+    <div class="info-grid">
+      <div class="info-box"><h4>Phospholipids (~40%)</h4><p>Amphipathic: hydrophilic phosphate heads + hydrophobic fatty acid tails. Form the matrix.</p></div>
+      <div class="info-box"><h4>Proteins (~50%)</h4><p>Integral (span) vs Peripheral (surface). Transport, signaling, adhesion, enzymatic activity.</p></div>
+      <div class="info-box"><h4>Carbohydrates (~10%)</h4><p>ONLY on extracellular surface as glycoproteins &amp; glycolipids. Cell recognition &amp; ABO blood groups.</p></div>
+      <div class="info-box"><h4>Cholesterol</h4><p>Fluidity buffer: prevents freezing at low T, prevents excess fluidity at high T. Organizes lipid rafts.</p></div>
+    </div>
+  </div>
+  
+  <div class="key"><h4>Key Concept: Membrane Asymmetry</h4><p>The outer leaflet is rich in <strong>PC, sphingomyelin &amp; glycolipids</strong> (saturated, rigid). The inner leaflet contains <strong>PE, PS &amp; PI</strong> (unsaturated, fluid, negatively charged). PS exposure signals apoptosis to macrophages.</p></div>
+</div>
+''')
+
+print("Part 2 written, length:", len(html_parts[1]))
+
+
+
+html_parts.append('''
+<!-- STRUCTURE -->
+<div id="structure" class="section">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">Lipid Self-Assembly</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Amphipathic lipids spontaneously organize into three structures based on geometry. Select each to visualize.</p>
+  
+  <div class="card">
+    <div class="card-title">Aggregate Structures</div>
+    <div class="controls">
+      <button class="btn active-btn" onclick="showStr('micelle')">Micelle</button>
+      <button class="btn" onclick="showStr('bilayer')">Bilayer</button>
+      <button class="btn" onclick="showStr('liposome')">Liposome</button>
+    </div>
+    
+    <div class="svg-wrap">
+      <svg id="strSvg" width="600" height="300" viewBox="0 0 600 300">
+        <defs><radialGradient id="wg" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#bee3f8;stop-opacity:.3"/><stop offset="100%" style="stop-color:#90cdf4;stop-opacity:.1"/></radialGradient></defs>
+        
+        <g id="micelle">
+          <circle cx="300" cy="150" r="95" fill="url(#wg)" stroke="#4299e1" stroke-width="1" stroke-dasharray="4,4"/>
+        </g>
+        <g id="bilayer" style="display:none">
+          <rect x="50" y="80" width="500" height="140" rx="8" fill="url(#wg)" stroke="#4299e1" stroke-width="1" stroke-dasharray="4,4"/>
+        </g>
+        <g id="liposome" style="display:none">
+          <circle cx="300" cy="150" r="105" fill="url(#wg)" stroke="#4299e1" stroke-width="1" stroke-dasharray="4,4"/>
+          <circle cx="300" cy="150" r="65" fill="#e6fffa" opacity=".5"/>
+        </g>
+        
+        <text id="strTitle" x="300" y="265" text-anchor="middle" fill="var(--primary)" font-size="14" font-weight="700">MICELLE</text>
+        <text id="strDesc" x="300" y="282" text-anchor="middle" fill="var(--muted)" font-size="10">Head area &gt; Tail area | Detergents, fatty acids, lysophospholipids</text>
+      </svg>
+    </div>
+    
+    <div id="strInfo" class="key"><h4>Micelle Formation</h4><p>Micelles form when the <strong>cross-sectional area of the head group exceeds that of the acyl chain</strong>. Hydrophobic tails aggregate inward, excluding water. Favored by detergents (SDS), free fatty acids, and lysophospholipids.</p></div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">Phospholipid Molecular Anatomy</div>
+    <div class="svg-wrap">
+      <svg width="600" height="260" viewBox="0 0 600 260">
+        <rect x="220" y="90" width="160" height="80" rx="10" fill="#fed7d7" stroke="#c53030" stroke-width="2"/>
+        <text x="300" y="130" text-anchor="middle" fill="#742a2a" font-size="12" font-weight="700">GLYCEROL-3-PHOSPHATE</text>
+        <text x="300" y="145" text-anchor="middle" fill="#742a2a" font-size="9">Backbone</text>
+        <circle cx="300" cy="45" r="32" fill="#c53030" opacity=".9"/>
+        <text x="300" y="40" text-anchor="middle" fill="white" font-size="11" font-weight="700">PO4 3-</text>
+        <text x="300" y="53" text-anchor="middle" fill="white" font-size="9">Hydrophilic</text>
+        <line x1="300" y1="77" x2="300" y2="90" stroke="#c53030" stroke-width="3"/>
+        <text x="350" y="65" fill="#c53030" font-size="11" font-weight="600">Polar Head</text>
+        <path d="M220 130 L120 130 L120 200" stroke="#2d3748" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <text x="80" y="170" fill="#2d3748" font-size="11" font-weight="600">Saturated Tail</text>
+        <text x="80" y="185" fill="#4a5568" font-size="9">Straight, packed tightly</text>
+        <path d="M380 130 L480 130 L480 155 L520 175 L520 200" stroke="#2d3748" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <circle cx="480" cy="155" r="4" fill="#e53e3e"/>
+        <text x="560" y="170" fill="#2d3748" font-size="11" font-weight="600">Unsaturated Tail</text>
+        <text x="560" y="185" fill="#4a5568" font-size="9">Kinked ~30 degrees, more fluid</text>
+        <text x="300" y="240" text-anchor="middle" fill="var(--primary)" font-size="12" font-weight="600">Amphipathic: Hydrophilic Head + Hydrophobic Tails</text>
+      </svg>
+    </div>
+  </div>
+</div>
+''')
+
+print("Part 3 written, length:", len(html_parts[2]))
+
+
+html_parts.append('''
+<!-- FLUIDITY -->
+<div id="fluidity" class="section">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">Membrane Fluidity</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Three factors govern fluidity: (1) fatty acid saturation, (2) cholesterol, and (3) temperature.</p>
+  
+  <div class="card">
+    <div class="card-title">Factor 1: Fatty Acid Saturation</div>
+    <div class="controls">
+      <button class="btn active-btn" onclick="setFluid('unsat')">Unsaturated &mdash; Fluid</button>
+      <button class="btn" onclick="setFluid('sat')">Saturated &mdash; Viscous</button>
+    </div>
+    <div class="svg-wrap">
+      <svg id="fluidSvg" width="650" height="260" viewBox="0 0 650 260">
+        <rect x="20" y="20" width="290" height="220" rx="12" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
+        <text x="165" y="45" text-anchor="middle" fill="#276749" font-size="13" font-weight="700">FLUID</text>
+        <text x="165" y="60" text-anchor="middle" fill="#38a169" font-size="10">Unsaturated fatty acids with kinks</text>
+        <g id="fluidUp"></g>
+        <g id="fluidDown"></g>
+        
+        <text x="325" y="140" text-anchor="middle" fill="var(--muted)" font-size="24">&hArr;</text>
+        
+        <rect x="340" y="20" width="290" height="220" rx="12" fill="#fffaf0" stroke="#d69e2e" stroke-width="2"/>
+        <text x="485" y="45" text-anchor="middle" fill="#975a16" font-size="13" font-weight="700">VISCOUS</text>
+        <text x="485" y="60" text-anchor="middle" fill="#d69e2e" font-size="10">Saturated fatty acids &mdash; straight</text>
+        <g id="viscUp"></g>
+        <g id="viscDown"></g>
+      </svg>
+    </div>
+    <div class="info-grid">
+      <div class="info-box"><h4>Unsaturated (Kinks)</h4><p>Double bonds create ~30 degree bends. Prevents tight packing &rarr; increases fluidity &amp; permeability.</p></div>
+      <div class="info-box"><h4>Saturated (Straight)</h4><p>No double bonds = straight tails pack tightly. Dense, less fluid, less permeable.</p></div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">Factor 2 &amp; 3: Cholesterol &amp; Temperature</div>
+    <div class="svg-wrap">
+      <svg width="640" height="220" viewBox="0 0 640 220">
+        <text x="100" y="30" text-anchor="middle" fill="#2b6cb0" font-size="12" font-weight="700">LOW TEMP</text>
+        <text x="320" y="30" text-anchor="middle" fill="#2c5282" font-size="12" font-weight="700">OPTIMAL RANGE</text>
+        <text x="540" y="30" text-anchor="middle" fill="#c53030" font-size="12" font-weight="700">HIGH TEMP</text>
+        <line x1="100" y1="45" x2="540" y2="45" stroke="#4a5568" stroke-width="2"/>
+        <polygon points="540,45 535,40 535,50" fill="#4a5568"/>
+        
+        <rect x="30" y="70" width="140" height="130" rx="8" fill="#ebf8ff" stroke="#4299e1" stroke-width="1"/>
+        <text x="100" y="90" text-anchor="middle" fill="#2b6cb0" font-size="10" font-weight="700">PREVENTS FREEZING</text>
+        <ellipse cx="80" cy="120" rx="10" ry="6" fill="#e53e3e"/><path d="M75 125 L70 150 M85 125 L90 148" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <ellipse cx="120" cy="130" rx="10" ry="6" fill="#e53e3e"/><path d="M115 135 L110 158 M125 135 L130 155" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <polygon points="100,140 105,130 110,140 108,155 102,155" fill="#ed8936"/>
+        <text x="100" y="175" text-anchor="middle" fill="#975a16" font-size="9">Cholesterol disrupts</text>
+        <text x="100" y="188" text-anchor="middle" fill="#975a16" font-size="9">ordered packing</text>
+        
+        <rect x="470" y="70" width="140" height="130" rx="8" fill="#fff5f5" stroke="#fc8181" stroke-width="1"/>
+        <text x="540" y="90" text-anchor="middle" fill="#c53030" font-size="10" font-weight="700">PREVENTS MELTING</text>
+        <ellipse cx="500" cy="120" rx="10" ry="6" fill="#e53e3e"/><path d="M495 125 L490 150 M505 125 L510 148" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <ellipse cx="540" cy="115" rx="10" ry="6" fill="#e53e3e"/><path d="M535 120 L530 145 M545 120 L550 142" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <polygon points="520,125 525,115 530,125 528,145 522,145" fill="#ed8936"/>
+        <text x="540" y="175" text-anchor="middle" fill="#975a16" font-size="9">Cholesterol restricts</text>
+        <text x="540" y="188" text-anchor="middle" fill="#975a16" font-size="9">phospholipid motion</text>
+        
+        <rect x="200" y="70" width="240" height="130" rx="8" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
+        <text x="320" y="95" text-anchor="middle" fill="#276749" font-size="12" font-weight="700">CHOLESTEROL = FLUIDITY BUFFER</text>
+        <text x="320" y="115" text-anchor="middle" fill="#38a169" font-size="10">Extends functional temperature range in BOTH directions</text>
+        <ellipse cx="260" cy="150" rx="10" ry="6" fill="#e53e3e"/><path d="M255 155 Q245 170 265 180" stroke="#2d3748" stroke-width="2" fill="none"/><path d="M265 155 Q275 165 250 175" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <polygon points="275,160 280,150 285,160 283,175 277,175" fill="#ed8936"/>
+        <ellipse cx="340" cy="155" rx="10" ry="6" fill="#e53e3e"/><path d="M335 160 Q325 175 345 185" stroke="#2d3748" stroke-width="2" fill="none"/><path d="M345 160 Q355 170 330 180" stroke="#2d3748" stroke-width="2" fill="none"/>
+        <polygon points="320,165 325,155 330,165 328,180 322,180" fill="#ed8936"/>
+        <ellipse cx="400" cy="145" rx="10" ry="6" fill="#e53e3e"/><path d="M395 150 Q385 165 405 175" stroke="#2d3748" stroke-width="2" fill="none"/><path d="M405 150 Q415 160 390 170" stroke="#2d3748" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="key"><h4>Mechanism</h4><p>At <strong>low T</strong>, cholesterol inserts between phospholipids, preventing crystallization. At <strong>high T</strong>, its rigid steroid ring restricts phospholipid movement. It also organizes lipid rafts &mdash; microdomains enriched in saturated lipids, sphingomyelin, and signaling proteins.</p></div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">Movement in the Bilayer</div>
+    <div class="svg-wrap">
+      <svg width="600" height="240" viewBox="0 0 600 240">
+        <rect x="20" y="40" width="560" height="160" rx="8" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1"/>
+        <g id="moveUp"></g>
+        <g id="moveDown"></g>
+        
+        <path d="M 80 55 A 15 15 0 1 1 95 60" stroke="#2b6cb0" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+        <text x="55" y="35" fill="#2b6cb0" font-size="10" font-weight="600">Rotational</text>
+        
+        <path d="M 180 55 L 260 55" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arr)" marker-start="url(#arrL)"/>
+        <text x="195" y="35" fill="#2b6cb0" font-size="10" font-weight="600">Lateral</text>
+        
+        <path d="M 380 70 Q 420 120 380 170" stroke="#c53030" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+        <text x="405" y="125" fill="#c53030" font-size="10" font-weight="600">Transverse</text>
+        <text x="405" y="138" fill="#c53030" font-size="9">("flip-flop")</text>
+        <text x="405" y="152" fill="#c53030" font-size="9">Rare, enzyme-catalyzed</text>
+        
+        <defs>
+          <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2b6cb0"/></marker>
+          <marker id="arrL" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M9,0 L9,6 L0,3 z" fill="#2b6cb0"/></marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="info-grid">
+      <div class="info-box"><h4>Rotational</h4><p>Phospholipid spins on its axis. Very fast, ~10^7 per second.</p></div>
+      <div class="info-box"><h4>Lateral</h4><p>Movement within one leaflet. ~10^7 per second. Creates fluidity. Proteins also move laterally.</p></div>
+      <div class="info-box"><h4>Transverse (Flip-Flop)</h4><p>Movement between leaflets. Very rare uncatalyzed. Requires <strong>flippases</strong> (to inner), <strong>floppases</strong> (to outer), or <strong>scramblases</strong> (bidirectional, Ca2+-dependent).</p></div>
+    </div>
+  </div>
+</div>
+''')
+
+print("Part 4 (fluidity) written, length:", len(html_parts[3]))
+
+
+
+html_parts.append('''
+<!-- TRANSPORT -->
+<div id="transport" class="section">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">Transport Across Membranes</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Membranes are selectively permeable. Transport is classified as non-mediated (simple diffusion) or mediated (facilitated/active).</p>
+  
+  <div class="card">
+    <div class="card-title">Transport Classification</div>
+    <div class="svg-wrap">
+      <svg width="700" height="320" viewBox="0 0 700 320">
+        <rect x="20" y="20" width="320" height="280" rx="12" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
+        <text x="180" y="45" text-anchor="middle" fill="#276749" font-size="13" font-weight="700">PASSIVE TRANSPORT</text>
+        <text x="180" y="62" text-anchor="middle" fill="#38a169" font-size="10">No energy required | Down concentration gradient</text>
+        
+        <rect x="40" y="80" width="280" height="70" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="60" y="100" fill="#276749" font-size="11" font-weight="700">Simple Diffusion</text>
+        <text x="60" y="115" fill="#4a5568" font-size="9">Small nonpolar molecules (O2, CO2, lipids)</text>
+        <text x="60" y="130" fill="#4a5568" font-size="9">Directly through bilayer</text>
+        <circle cx="280" cy="105" r="6" fill="#4299e1"/><text x="280" y="130" text-anchor="middle" fill="#4299e1" font-size="14">&darr;</text>
+        <circle cx="280" cy="145" r="6" fill="#4299e1"/>
+        
+        <rect x="40" y="165" width="280" height="70" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="60" y="185" fill="#276749" font-size="11" font-weight="700">Facilitated Diffusion</text>
+        <text x="60" y="200" fill="#4a5568" font-size="9">Channel or carrier proteins</text>
+        <text x="60" y="215" fill="#4a5568" font-size="9">No ATP | Glucose, ions via channels</text>
+        <rect x="250" y="180" width="30" height="40" rx="15" fill="#4299e1" opacity=".8"/>
+        <circle cx="265" cy="175" r="5" fill="#e53e3e"/><circle cx="265" cy="225" r="5" fill="#e53e3e"/>
+        
+        <rect x="40" y="250" width="280" height="40" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="60" y="270" fill="#276749" font-size="11" font-weight="700">Filtration &amp; Osmosis</text>
+        <text x="60" y="282" fill="#4a5568" font-size="9">Water movement via aquaporins or osmotic pressure</text>
+        
+        <rect x="360" y="20" width="320" height="280" rx="12" fill="#fff5f5" stroke="#c53030" stroke-width="2"/>
+        <text x="520" y="45" text-anchor="middle" fill="#742a2a" font-size="13" font-weight="700">ACTIVE TRANSPORT</text>
+        <text x="520" y="62" text-anchor="middle" fill="#c53030" font-size="10">Requires energy (ATP) | Against concentration gradient</text>
+        
+        <rect x="380" y="80" width="280" height="80" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="400" y="100" fill="#742a2a" font-size="11" font-weight="700">Primary Active Transport</text>
+        <text x="400" y="115" fill="#4a5568" font-size="9">Direct ATP hydrolysis</text>
+        <text x="400" y="130" fill="#4a5568" font-size="9">Na+/K+-ATPase, Ca2+-ATPase, H+/K+-ATPase</text>
+        <text x="400" y="145" fill="#4a5568" font-size="9">ABC transporters (MDR, CFTR)</text>
+        <circle cx="590" cy="110" r="8" fill="#ecc94b"/><text x="590" y="114" text-anchor="middle" fill="#744210" font-size="8" font-weight="700">ATP</text>
+        
+        <rect x="380" y="175" width="280" height="80" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="400" y="195" fill="#742a2a" font-size="11" font-weight="700">Secondary Active Transport</text>
+        <text x="400" y="210" fill="#4a5568" font-size="9">Uses electrochemical gradient (NOT direct ATP)</text>
+        <text x="400" y="225" fill="#4a5568" font-size="9">Symport: Na+/glucose (SGLT1) &mdash; same direction</text>
+        <text x="400" y="240" fill="#4a5568" font-size="9">Antiport: Na+/Ca2+ exchanger &mdash; opposite directions</text>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">The Na+/K+-ATPase Pump &mdash; Step by Step</div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">Click each step to see the conformational change. This is primary active transport &mdash; the most important pump in animal cells.</p>
+    
+    <div class="svg-wrap">
+      <svg id="pumpSvg" width="600" height="260" viewBox="0 0 600 260">
+        <rect x="0" y="0" width="600" height="80" fill="#e6fffa" opacity=".3"/>
+        <text x="300" y="25" text-anchor="middle" fill="#2c7a7b" font-size="12" font-weight="600">OUTSIDE</text>
+        <rect x="0" y="180" width="600" height="80" fill="#faf5ff" opacity=".3"/>
+        <text x="300" y="245" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="600">INSIDE (CYTOSOL)</text>
+        
+        <g id="pmLipids"></g>
+        
+        <g id="pumpBody">
+          <rect x="250" y="95" width="100" height="70" rx="12" fill="url(#pg)" stroke="#2b6cb0" stroke-width="2"/>
+          <text x="300" y="135" text-anchor="middle" fill="white" font-size="11" font-weight="700">Na+/K+-ATPase</text>
+          <circle id="site1" cx="270" cy="110" r="8" fill="#63b3ed" opacity=".6"/>
+          <circle id="site2" cx="300" cy="110" r="8" fill="#63b3ed" opacity=".6"/>
+          <circle id="site3" cx="330" cy="110" r="8" fill="#63b3ed" opacity=".6"/>
+          <circle id="siteK1" cx="275" cy="150" r="8" fill="#68d391" opacity=".6"/>
+          <circle id="siteK2" cx="325" cy="150" r="8" fill="#68d391" opacity=".6"/>
+        </g>
+        
+        <g id="ions">
+          <circle id="na1" cx="200" cy="50" r="10" fill="#4299e1"/><text x="200" y="54" text-anchor="middle" fill="white" font-size="10" font-weight="700">Na+</text>
+          <circle id="na2" cx="230" cy="40" r="10" fill="#4299e1"/><text x="230" y="44" text-anchor="middle" fill="white" font-size="10" font-weight="700">Na+</text>
+          <circle id="na3" cx="260" cy="55" r="10" fill="#4299e1"/><text x="260" y="59" text-anchor="middle" fill="white" font-size="10" font-weight="700">Na+</text>
+          
+          <circle id="k1" cx="350" cy="210" r="10" fill="#38a169"/><text x="350" y="214" text-anchor="middle" fill="white" font-size="10" font-weight="700">K+</text>
+          <circle id="k2" cx="380" cy="205" r="10" fill="#38a169"/><text x="380" y="209" text-anchor="middle" fill="white" font-size="10" font-weight="700">K+</text>
+          
+          <circle id="atp" cx="450" cy="130" r="14" fill="#ecc94b"/><text x="450" y="134" text-anchor="middle" fill="#744210" font-size="9" font-weight="700">ATP</text>
+          <circle id="adp" cx="450" cy="130" r="14" fill="#d69e2e" opacity="0"/><text x="450" y="134" text-anchor="middle" fill="#744210" font-size="9" font-weight="700" opacity="0" id="adpText">ADP+P</text>
+        </g>
+        
+        <text id="pumpStatus" x="300" y="200" text-anchor="middle" fill="var(--primary)" font-size="12" font-weight="600">E1 state: Open to cytosol, high Na+ affinity</text>
+      </svg>
+    </div>
+    
+    <div class="mechanism-steps">
+      <div class="step-box" onclick="pumpStep(1)"><div class="step-num">1</div><div><strong>E1 State:</strong> 3 Na+ bind from cytosol. Pump open to inside.</div></div>
+      <div class="step-box" onclick="pumpStep(2)"><div class="step-num">2</div><div><strong>Phosphorylation:</strong> ATP to ADP + Pi. Aspartate phosphorylated. Change to E2.</div></div>
+      <div class="step-box" onclick="pumpStep(3)"><div class="step-num">3</div><div><strong>E2 State:</strong> Open to outside. Low Na+ affinity. 3 Na+ released.</div></div>
+      <div class="step-box" onclick="pumpStep(4)"><div class="step-num">4</div><div><strong>K+ Binding:</strong> 2 K+ bind from outside. Pi released. Returns to E1.</div></div>
+      <div class="step-box" onclick="pumpStep(5)"><div class="step-num">5</div><div><strong>Reset:</strong> 2 K+ released into cytosol. Net: 3 Na+ out, 2 K+ in per ATP.</div></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn primary" onclick="runPumpAnim()">Play Full Cycle</button>
+      <button class="btn" onclick="resetPump()">Reset</button>
+    </div>
+  </div>
+</div>
+''')
+
+print("Part 5 (transport) written, length:", len(html_parts[4]))
+
+
+
+html_parts.append('''
+<!-- MECHANISMS -->
+<div id="mechanisms" class="section">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">Vesicular Transport</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Large molecules and particles cross membranes via vesicles &mdash; not through protein channels.</p>
+  
+  <div class="card">
+    <div class="card-title">Endocytosis vs Exocytosis</div>
+    <div class="controls">
+      <button class="btn active-btn" onclick="showVesicle('endo')">Endocytosis</button>
+      <button class="btn" onclick="showVesicle('exo')">Exocytosis</button>
+    </div>
+    
+    <div class="svg-wrap">
+      <svg id="vesSvg" width="600" height="280" viewBox="0 0 600 280">
+        <rect x="0" y="0" width="600" height="60" fill="#e6fffa" opacity=".3"/>
+        <text x="300" y="25" text-anchor="middle" fill="#2c7a7b" font-size="12" font-weight="600">EXTRACELLULAR</text>
+        <rect x="0" y="220" width="600" height="60" fill="#faf5ff" opacity=".3"/>
+        <text x="300" y="245" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="600">CYTOSOL</text>
+        
+        <g id="endoGroup">
+          <path d="M50 80 Q150 80 200 120 Q250 160 300 120 Q350 80 450 80 L550 80" stroke="#e53e3e" stroke-width="4" fill="none"/>
+          <path d="M200 120 Q250 200 300 200 Q350 200 400 120" stroke="#e53e3e" stroke-width="4" fill="#fed7d7" opacity=".5"/>
+          <circle cx="300" cy="140" r="15" fill="#805ad5"/>
+          <text x="300" y="145" text-anchor="middle" fill="white" font-size="9" font-weight="700">Particle</text>
+          <text x="300" y="260" text-anchor="middle" fill="var(--primary)" font-size="13" font-weight="700">ENDOCYTOSIS</text>
+          <text x="300" y="275" text-anchor="middle" fill="var(--muted)" font-size="10">Membrane invaginates, vesicle pinches off into cytosol</text>
+        </g>
+        
+        <g id="exoGroup" style="display:none">
+          <path d="M50 80 Q150 80 200 80 Q250 80 300 80 Q350 80 450 80 L550 80" stroke="#e53e3e" stroke-width="4" fill="none"/>
+          <ellipse cx="300" cy="140" rx="50" ry="30" fill="#fed7d7" stroke="#e53e3e" stroke-width="2" opacity=".7"/>
+          <circle cx="300" cy="140" r="12" fill="#805ad5"/>
+          <text x="300" y="144" text-anchor="middle" fill="white" font-size="9" font-weight="700">Cargo</text>
+          <path d="M250 110 Q300 70 350 110" stroke="#e53e3e" stroke-width="3" fill="none" stroke-dasharray="4,4"/>
+          <text x="300" y="260" text-anchor="middle" fill="var(--primary)" font-size="13" font-weight="700">EXOCYTOSIS</text>
+          <text x="300" y="275" text-anchor="middle" fill="var(--muted)" font-size="10">Vesicle fuses with membrane, releases contents outside</text>
+        </g>
+      </svg>
+    </div>
+    
+    <div class="info-grid">
+      <div class="info-box"><h4>Phagocytosis</h4><p>"Cell eating" &mdash; solid particles (bacteria, debris). Forms phagosome, fuses with lysosome.</p></div>
+      <div class="info-box"><h4>Pinocytosis</h4><p>"Cell drinking" &mdash; uptake of extracellular fluid and dissolved solutes.</p></div>
+      <div class="info-box"><h4>Receptor-Mediated</h4><p>Highly selective. LDL uptake, iron transferrin. Clathrin-coated pits.</p></div>
+      <div class="info-box"><h4>Exocytosis Types</h4><p><strong>Constitutive:</strong> continuous secretion. <strong>Regulated:</strong> requires signal (neurotransmitters, hormones).</p></div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">ABC Transporters &amp; Multi-Drug Resistance</div>
+    <div class="svg-wrap">
+      <svg width="600" height="220" viewBox="0 0 600 220">
+        <rect x="0" y="0" width="600" height="60" fill="#e6fffa" opacity=".3"/>
+        <text x="300" y="25" text-anchor="middle" fill="#2c7a7b" font-size="12" font-weight="600">OUTSIDE</text>
+        <rect x="0" y="160" width="600" height="60" fill="#faf5ff" opacity=".3"/>
+        <text x="300" y="185" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="600">INSIDE</text>
+        
+        <g id="abcLipids"></g>
+        
+        <rect x="250" y="80" width="100" height="60" rx="10" fill="url(#pg)" stroke="#2b6cb0" stroke-width="2"/>
+        <text x="300" y="115" text-anchor="middle" fill="white" font-size="10" font-weight="700">ABC Transporter</text>
+        
+        <rect x="255" y="60" width="15" height="20" fill="#805ad5"/>
+        <rect x="330" y="60" width="15" height="20" fill="#805ad5"/>
+        <rect x="255" y="140" width="15" height="20" fill="#805ad5"/>
+        <rect x="330" y="140" width="15" height="20" fill="#805ad5"/>
+        
+        <rect x="260" y="150" width="30" height="25" rx="5" fill="#ecc94b"/>
+        <text x="275" y="167" text-anchor="middle" fill="#744210" font-size="8" font-weight="700">NBD1</text>
+        <rect x="310" y="150" width="30" height="25" rx="5" fill="#ecc94b"/>
+        <text x="325" y="167" text-anchor="middle" fill="#744210" font-size="8" font-weight="700">NBD2</text>
+        
+        <circle cx="200" cy="110" r="12" fill="#e53e3e" opacity=".8"/>
+        <text x="200" y="114" text-anchor="middle" fill="white" font-size="8" font-weight="700">Drug</text>
+        <path d="M212 110 L250 110" stroke="#e53e3e" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrRed)"/>
+        <circle cx="400" cy="110" r="12" fill="#e53e3e" opacity=".8"/>
+        <text x="400" y="114" text-anchor="middle" fill="white" font-size="8" font-weight="700">Drug</text>
+        
+        <text x="300" y="205" text-anchor="middle" fill="var(--primary)" font-size="12" font-weight="600">ATP-powered efflux pump | 2 TMDs + 2 NBDs | MDR in cancer</text>
+        
+        <defs><marker id="arrRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#e53e3e"/></marker></defs>
+      </svg>
+    </div>
+    <div class="key"><h4>Clinical Relevance</h4><p>ABC transporters like <strong>P-glycoprotein (MDR1)</strong> are overexpressed in many cancer cells, pumping chemotherapy drugs OUT of the cell. This is a major cause of <strong>multi-drug resistance</strong>. Inhibiting these transporters is an active area of pharmacological research.</p></div>
+  </div>
+</div>
+''')
+
+print("Part 6 (mechanisms) written, length:", len(html_parts[5]))
+
+
+html_parts.append('''
+<!-- ISOLATION -->
+<div id="isolation" class="section">
+  <h2 style="font-family:'Playfair Display',serif;color:var(--primary);margin-bottom:.5rem;">Isolation &amp; Characterization</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem;line-height:1.6;">Understanding membranes requires isolating them intact. Here are the principal techniques from your course notes.</p>
+  
+  <div class="card">
+    <div class="card-title">Cell Lysis Methods</div>
+    <div class="svg-wrap">
+      <svg width="700" height="280" viewBox="0 0 700 280">
+        <rect x="20" y="20" width="200" height="240" rx="12" fill="#ebf8ff" stroke="#4299e1" stroke-width="2"/>
+        <text x="120" y="45" text-anchor="middle" fill="#2b6cb0" font-size="13" font-weight="700">MECHANICAL</text>
+        <text x="120" y="65" text-anchor="middle" fill="#4299e1" font-size="10">Physical shear force</text>
+        <rect x="40" y="85" width="160" height="50" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="120" y="105" text-anchor="middle" fill="#2b6cb0" font-size="11" font-weight="600">High Pressure</text>
+        <text x="120" y="120" text-anchor="middle" fill="#4a5568" font-size="9">Homogenizer</text>
+        <rect x="40" y="150" width="160" height="50" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="120" y="170" text-anchor="middle" fill="#2b6cb0" font-size="11" font-weight="600">Bead Mill</text>
+        <text x="120" y="185" text-anchor="middle" fill="#4a5568" font-size="9">Glass/steel beads</text>
+        <rect x="40" y="215" width="160" height="30" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="120" y="235" text-anchor="middle" fill="#2b6cb0" font-size="10">Sonication (cavitation)</text>
+        
+        <rect x="240" y="20" width="200" height="240" rx="12" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
+        <text x="340" y="45" text-anchor="middle" fill="#276749" font-size="13" font-weight="700">PHYSICAL</text>
+        <text x="340" y="65" text-anchor="middle" fill="#38a169" font-size="10">Non-contact methods</text>
+        <rect x="260" y="85" width="160" height="50" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="340" y="105" text-anchor="middle" fill="#276749" font-size="11" font-weight="600">Freeze-Thaw</text>
+        <text x="340" y="120" text-anchor="middle" fill="#4a5568" font-size="9">Ice crystal formation</text>
+        <rect x="260" y="150" width="160" height="50" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="340" y="170" text-anchor="middle" fill="#276749" font-size="11" font-weight="600">Osmotic Shock</text>
+        <text x="340" y="185" text-anchor="middle" fill="#4a5568" font-size="9">Hypotonic swelling to burst</text>
+        <rect x="260" y="215" width="160" height="30" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="340" y="235" text-anchor="middle" fill="#276749" font-size="10">Thermal lysis</text>
+        
+        <rect x="460" y="20" width="220" height="240" rx="12" fill="#fff5f5" stroke="#c53030" stroke-width="2"/>
+        <text x="570" y="45" text-anchor="middle" fill="#742a2a" font-size="13" font-weight="700">CHEMICAL / BIOLOGICAL</text>
+        <text x="570" y="65" text-anchor="middle" fill="#c53030" font-size="10">Reagent-based disruption</text>
+        <rect x="480" y="85" width="180" height="40" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="570" y="105" text-anchor="middle" fill="#742a2a" font-size="11" font-weight="600">Alkaline Lysis (pH 11.5-12.5)</text>
+        <text x="570" y="118" text-anchor="middle" fill="#4a5568" font-size="9">NaOH + SDS breaks ester bonds</text>
+        <rect x="480" y="140" width="180" height="40" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="570" y="160" text-anchor="middle" fill="#742a2a" font-size="11" font-weight="600">Detergent Lysis</text>
+        <text x="570" y="173" text-anchor="middle" fill="#4a5568" font-size="9">Disrupts hydrophobic interactions</text>
+        <rect x="480" y="195" width="180" height="40" rx="6" fill="white" stroke="#e2e8f0"/>
+        <text x="570" y="215" text-anchor="middle" fill="#742a2a" font-size="11" font-weight="600">Enzymatic (Lysozyme, etc.)</text>
+        <text x="570" y="228" text-anchor="middle" fill="#4a5568" font-size="9">Specific cell wall digestion</text>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">Membrane Isolation Techniques</div>
+    <div class="info-grid">
+      <div class="info-box"><h4>Ionic Interaction</h4><p>Polylysine-coated plates bind negatively charged cells. Hypotonic lysis leaves membrane attached. Trypsin releases glycoproteins. Chloroform:methanol (2:1) extracts lipids.</p></div>
+      <div class="info-box"><h4>Lectin Binding</h4><p>Concanavalin A (ConA) on magnetic beads binds mannose-rich plasma membrane glycoproteins. Eluted with alpha-methyl mannoside + detergent.</p></div>
+      <div class="info-box"><h4>Density Gradient Centrifugation</h4><p>Sucrose or iodixanol gradients. Light membranes (1.034-1.09 g/ml) vs heavy membranes (1.09-1.136 g/ml). 100,000g for 2.5-3 hours.</p></div>
+      <div class="info-box"><h4>Characterization</h4><p>TLC separates lipid classes. Mass spectrometry identifies species. MALDI-TOF analyzes glycans. HPLC for quantitative lipidomics.</p></div>
+    </div>
+  </div>
+  
+  <div class="key"><h4>Summary: The Membrane as a Dynamic System</h4><p>Membranes are not static barriers &mdash; they are <strong>dynamic, asymmetric, self-sealing, and selectively permeable</strong> structures. Their composition varies by cell type and leaflet. Fluidity is tuned by fatty acid saturation, cholesterol, and temperature. Transport ranges from passive diffusion to ATP-driven pumps and vesicular trafficking. Understanding these principles is essential for pharmacology, pathology, and cell engineering.</p></div>
+</div>
+
+</div>
+''')
+
+print("Part 7 (isolation) written, length:", len(html_parts[6]))
+
+
+
+<script>
+// ===== NAVIGATION =====
+function showSec(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ===== MEMBRANE LABELS =====
+function setLabel(txt){
+  let el=document.getElementById('compLabel');
+  el.textContent=txt||'Hover over a component';
+  el.setAttribute('opacity',txt?'1':'0');
+}
+
+// ===== DIFFUSION ANIMATION =====
+let diffAnim=null;
+function animDiff(){
+  resetMem();
+  let lips=document.querySelectorAll('#memSvg .lipid');
+  let t=0;
+  diffAnim=setInterval(()=>{
+    t+=0.05;
+    lips.forEach((lip,i)=>{
+      let baseX=45+(i%18)*38;
+      let baseY=(i<18)?80:300;
+      let offX=Math.sin(t+i)*8;
+      let offY=Math.cos(t*0.7+i)*3;
+      lip.setAttribute('transform','translate('+(baseX+offX)+','+(baseY+offY)+')');
+    });
+  },50);
+}
+function resetMem(){if(diffAnim){clearInterval(diffAnim);diffAnim=null;}let lips=document.querySelectorAll('#memSvg .lipid');lips.forEach((lip,i)=>{let baseX=45+(i%18)*38;let baseY=(i<18)?80:300;lip.setAttribute('transform','translate('+baseX+','+baseY+')');});}
+
+// ===== STRUCTURE TOGGLE =====
+function showStr(type){
+  document.getElementById('micelle').style.display='none';
+  document.getElementById('bilayer').style.display='none';
+  document.getElementById('liposome').style.display='none';
+  document.getElementById(type).style.display='block';
+  
+  let titles={micelle:['MICELLE','Head area > Tail area | Detergents, fatty acids, lysophospholipids'],
+    bilayer:['LIPID BILAYER','Head area ~ Tail area | Phospholipids, sphingolipids | Basic cell membrane unit'],
+    liposome:['LIPOSOME / VESICLE','Self-sealing bilayer sphere | Drug delivery | Origin of first cells']};
+  document.getElementById('strTitle').textContent=titles[type][0];
+  document.getElementById('strDesc').textContent=titles[type][1];
+  
+  let infos={
+    micelle:'<h4>Micelle Formation</h4><p>Micelles form when the <strong>cross-sectional area of the head group exceeds that of the acyl chain</strong>. Hydrophobic tails aggregate inward, excluding water. Favored by detergents (SDS), free fatty acids, and lysophospholipids.</p>',
+    bilayer:'<h4>Bilayer Formation</h4><p>Bilayers form when <strong>head area approximately equals tail area</strong>, as in glycerophospholipids and sphingolipids. Two leaflets arrange tail-to-tail, creating a hydrophobic core.</p>',
+    liposome:'<h4>Liposome/Vesicle Formation</h4><p>Bilayer sheets are unstable at edges because hydrophobic tails contact water. They <strong>spontaneously fold into hollow spheres</strong> (liposomes), enclosing an aqueous compartment. Likely precursors to the first living cells.</p>'
+  };
+  document.getElementById('strInfo').innerHTML=infos[type];
+  
+  document.querySelectorAll('#structure .controls .btn').forEach(b=>b.classList.remove('active-btn'));
+  event.target.classList.add('active-btn');
+}
+
+// ===== FLUIDITY TOGGLE =====
+function setFluid(type){
+  document.querySelectorAll('#fluidity .controls .btn').forEach(b=>b.classList.remove('active-btn'));
+  event.target.classList.add('active-btn');
+}
+
+// ===== PUMP ANIMATION =====
+let pumpState=0;
+function pumpStep(n){
+  pumpState=n;
+  let na1=document.getElementById('na1'), na2=document.getElementById('na2'), na3=document.getElementById('na3');
+  let k1=document.getElementById('k1'), k2=document.getElementById('k2');
+  let atp=document.getElementById('atp'), adp=document.getElementById('adp'), adpText=document.getElementById('adpText');
+  let status=document.getElementById('pumpStatus');
+  
+  // Reset positions
+  na1.setAttribute('cx','200'); na1.setAttribute('cy','50');
+  na2.setAttribute('cx','230'); na2.setAttribute('cy','40');
+  na3.setAttribute('cx','260'); na3.setAttribute('cy','55');
+  k1.setAttribute('cx','350'); k1.setAttribute('cy','210');
+  k2.setAttribute('cx','380'); k2.setAttribute('cy','205');
+  atp.setAttribute('opacity','1'); adp.setAttribute('opacity','0'); adpText.setAttribute('opacity','0');
+  
+  if(n>=1){
+    na1.setAttribute('cx','270'); na1.setAttribute('cy','105');
+    na2.setAttribute('cx','300'); na2.setAttribute('cy','105');
+    na3.setAttribute('cx','330'); na3.setAttribute('cy','105');
+    status.textContent='Step 1: 3 Na+ bound to E1 (cytosol-facing)';
+  }
+  if(n>=2){
+    atp.setAttribute('opacity','0'); adp.setAttribute('opacity','1'); adpText.setAttribute('opacity','1');
+    status.textContent='Step 2: ATP hydrolyzed, aspartate phosphorylated. E1→E2 transition.';
+  }
+  if(n>=3){
+    na1.setAttribute('cx','200'); na1.setAttribute('cy','50');
+    na2.setAttribute('cx','230'); na2.setAttribute('cy','40');
+    na3.setAttribute('cx','260'); na3.setAttribute('cy','55');
+    status.textContent='Step 3: E2 state open to outside. 3 Na+ released (low affinity).';
+  }
+  if(n>=4){
+    k1.setAttribute('cx','275'); k1.setAttribute('cy','155');
+    k2.setAttribute('cx','325'); k2.setAttribute('cy','155');
+    atp.setAttribute('opacity','1'); adp.setAttribute('opacity','0'); adpText.setAttribute('opacity','0');
+    status.textContent='Step 4: 2 K+ bind from outside. Pi released. Return to E1.';
+  }
+  if(n>=5){
+    k1.setAttribute('cx','350'); k1.setAttribute('cy','210');
+    k2.setAttribute('cx','380'); k2.setAttribute('cy','205');
+    status.textContent='Step 5: 2 K+ released to cytosol. Net: 3 Na+ out, 2 K+ in per ATP.';
+  }
+}
+function resetPump(){pumpStep(0); document.getElementById('pumpStatus').textContent='E1 state: Open to cytosol, high Na+ affinity';}
+function runPumpAnim(){
+  let steps=[1,2,3,4,5];
+  let i=0;
+  let interval=setInterval(()=>{
+    if(i>=steps.length){clearInterval(interval); return;}
+    pumpStep(steps[i]);
+    i++;
+  },1200);
+}
+
+// ===== VESICLE TOGGLE =====
+function showVesicle(type){
+  document.getElementById('endoGroup').style.display=(type==='endo')?'block':'none';
+  document.getElementById('exoGroup').style.display=(type==='exo')?'block':'none';
+  document.querySelectorAll('#mechanisms .controls .btn').forEach(b=>b.classList.remove('active-btn'));
+  event.target.classList.add('active-btn');
+}
+
+// ===== SVG GENERATION HELPERS =====
+function makeLipid(x,y,upper){
+  let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('transform','translate('+x+','+y+')');
+  g.setAttribute('class','lipid');
+  let tails=upper?'M-4 5 L-6 35 M4 5 L6 35':'M-4 -5 L-6 -35 M4 -5 L6 -35';
+  g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"12\" ry=\"8\" fill=\"url(#hg)\"/><path d=\"'+tails+'\" stroke=\"url(#tg)\" stroke-width=\"3\" fill=\"none\"/>';
+  return g;
+}
+
+// Generate membrane lipids
+let ul=document.getElementById('uLipids');
+if(ul){for(let i=0;i<18;i++)ul.appendChild(makeLipid(45+i*38,80+Math.random()*6,true));}
+let ll=document.getElementById('lLipids');
+if(ll){for(let i=0;i<18;i++)ll.appendChild(makeLipid(45+i*38,300+Math.random()*6,false));}
+
+// Generate pump lipids
+let pml=document.getElementById('pmLipids');
+if(pml){
+  for(let i=0;i<15;i++){
+    let x=30+i*38;
+    let u=document.createElementNS('http://www.w3.org/2000/svg','g');
+    u.innerHTML='<ellipse cx=\"'+x+'\" cy=\"85\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M'+(x-4)+' 90 L'+(x-6)+' 120 M'+(x+4)+' 90 L'+(x+6)+' 120\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    pml.appendChild(u);
+    let d=document.createElementNS('http://www.w3.org/2000/svg','g');
+    d.innerHTML='<ellipse cx=\"'+x+'\" cy=\"175\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M'+(x-4)+' 170 L'+(x-6)+' 140 M'+(x+4)+' 170 L'+(x+6)+' 140\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    pml.appendChild(d);
+  }
+}
+
+// Generate ABC lipids
+let abc=document.getElementById('abcLipids');
+if(abc){
+  for(let i=0;i<12;i++){
+    let x=40+i*45;
+    let u=document.createElementNS('http://www.w3.org/2000/svg','g');
+    u.innerHTML='<ellipse cx=\"'+x+'\" cy=\"65\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M'+(x-4)+' 70 L'+(x-6)+' 100 M'+(x+4)+' 70 L'+(x+6)+' 100\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    abc.appendChild(u);
+    let d=document.createElementNS('http://www.w3.org/2000/svg','g');
+    d.innerHTML='<ellipse cx=\"'+x+'\" cy=\"155\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M'+(x-4)+' 150 L'+(x-6)+' 120 M'+(x+4)+' 150 L'+(x+6)+' 120\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    abc.appendChild(d);
+  }
+}
+
+// Generate fluidity lipids
+let fluidUp=document.getElementById('fluidUp');
+if(fluidUp){
+  let pos=[[60,90],[110,85],[160,92],[210,88],[260,91]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"14\" ry=\"9\" fill=\"#e53e3e\"/><path d=\"M-4 5 Q-14 40 1 70 M4 5 Q14 35 -11 65\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    fluidUp.appendChild(g);
+  });
+}
+let fluidDown=document.getElementById('fluidDown');
+if(fluidDown){
+  let pos=[[70,200],[120,205],[170,198],[220,202],[270,199]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"14\" ry=\"9\" fill=\"#e53e3e\"/><path d=\"M-4 -5 Q-14 -40 1 -70 M4 -5 Q14 -35 -11 -65\" stroke=\"#2d3748\" stroke-width=\"3\" fill=\"none\"/>';
+    fluidDown.appendChild(g);
+  });
+}
+
+let viscUp=document.getElementById('viscUp');
+if(viscUp){
+  let pos=[[380,90],[430,90],[480,90],[530,90],[580,90]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"14\" ry=\"9\" fill=\"#c53030\"/><line x1=\"-4\" y1=\"5\" x2=\"-4\" y2=\"65\" stroke=\"#1a202c\" stroke-width=\"3\"/><line x1=\"4\" y1=\"5\" x2=\"4\" y2=\"65\" stroke=\"#1a202c\" stroke-width=\"3\"/>';
+    viscUp.appendChild(g);
+  });
+}
+let viscDown=document.getElementById('viscDown');
+if(viscDown){
+  let pos=[[380,200],[430,200],[480,200],[530,200],[580,200]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"14\" ry=\"9\" fill=\"#c53030\"/><line x1=\"-4\" y1=\"-5\" x2=\"-4\" y2=\"-65\" stroke=\"#1a202c\" stroke-width=\"3\"/><line x1=\"4\" y1=\"-5\" x2=\"4\" y2=\"-65\" stroke=\"#1a202c\" stroke-width=\"3\"/>';
+    viscDown.appendChild(g);
+  });
+}
+
+// Generate movement lipids
+let moveUp=document.getElementById('moveUp');
+if(moveUp){
+  let pos=[[80,70],[180,68],[280,72],[380,69],[480,71]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M-4 5 L-6 35 M4 5 L6 35\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    moveUp.appendChild(g);
+  });
+}
+let moveDown=document.getElementById('moveDown');
+if(moveDown){
+  let pos=[[90,170],[190,172],[290,168],[390,171],[490,169]];
+  pos.forEach(p=>{
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+p[0]+','+p[1]+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"12\" ry=\"8\" fill=\"#e53e3e\"/><path d=\"M-4 -5 L-6 -35 M4 -5 L6 -35\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    moveDown.appendChild(g);
+  });
+}
+
+// Generate micelle lipids
+let mic=document.getElementById('micelle');
+if(mic){
+  for(let a=0;a<24;a++){
+    let ang=(a/24)*Math.PI*2, x=300+75*Math.cos(ang), y=150+75*Math.sin(ang);
+    let g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform','translate('+x+','+y+') rotate('+(ang*180/Math.PI+90)+')');
+    g.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"10\" ry=\"6\" fill=\"#e53e3e\"/><path d=\"M-3 5 L-5 25 M3 5 L5 25\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    mic.appendChild(g);
+  }
+}
+
+// Generate bilayer lipids
+let bil=document.getElementById('bilayer');
+if(bil){
+  for(let i=0;i<14;i++){
+    let x=70+i*35;
+    let gu=document.createElementNS('http://www.w3.org/2000/svg','g');
+    gu.setAttribute('transform','translate('+x+',105)');
+    gu.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"11\" ry=\"7\" fill=\"#e53e3e\"/><path d=\"M-3 5 L-5 30 M3 5 L5 30\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    bil.appendChild(gu);
+    let gl=document.createElementNS('http://www.w3.org/2000/svg','g');
+    gl.setAttribute('transform','translate('+x+',195)');
+    gl.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"11\" ry=\"7\" fill=\"#e53e3e\"/><path d=\"M-3 -5 L-5 -30 M3 -5 L5 -30\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    bil.appendChild(gl);
+  }
+}
+
+// Generate liposome lipids
+let lip=document.getElementById('liposome');
+if(lip){
+  for(let a=0;a<28;a++){
+    let ang=(a/28)*Math.PI*2, xo=300+90*Math.cos(ang), yo=150+90*Math.sin(ang);
+    let go=document.createElementNS('http://www.w3.org/2000/svg','g');
+    go.setAttribute('transform','translate('+xo+','+yo+') rotate('+(ang*180/Math.PI+90)+')');
+    go.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"10\" ry=\"6\" fill=\"#e53e3e\"/><path d=\"M-3 5 L-5 22 M3 5 L5 22\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    lip.appendChild(go);
+    let xi=300+55*Math.cos(ang), yi=150+55*Math.sin(ang);
+    let gi=document.createElementNS('http://www.w3.org/2000/svg','g');
+    gi.setAttribute('transform','translate('+xi+','+yi+') rotate('+(ang*180/Math.PI-90)+')');
+    gi.innerHTML='<ellipse cx=\"0\" cy=\"0\" rx=\"10\" ry=\"6\" fill=\"#e53e3e\"/><path d=\"M-3 5 L-5 22 M3 5 L5 22\" stroke=\"#2d3748\" stroke-width=\"2.5\" fill=\"none\"/>';
+    lip.appendChild(gi);
+  }
+}
+</script>
+</body>
+</html>
