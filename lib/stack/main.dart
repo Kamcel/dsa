@@ -19,8 +19,16 @@ void main() {
   // empty.pop();
   // empty.peek();
 
+  //Reverse string
   print(reverseAString('MARCEL'));
   print(reverseAString('RUFAI'));
   print(reverseAString('DANIEL'));
   print(reverseAString('BIOCHEMISTRY'));
+
+  //Balance parentheses
+  print(isParenthesesBalanced('()'));
+  print(isParenthesesBalanced('({[]})'));
+  print(isParenthesesBalanced('(()())'));
+
+  print(isParenthesesBalanced('(]'));
 }
