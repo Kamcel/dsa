@@ -94,3 +94,47 @@ bool isParenthesesBalanced(String text) {
   }
   return true;
 }
+
+/*
+Decimal to Binary
+
+IF number == 0:
+  RETURN '0'
+
+CREATE an empty stack
+
+WHILE number > 0:
+  remainder = number % 2
+
+  PUSH remainder 
+
+  number = number / 2
+  using integer division
+
+WHILE stack is not empty:
+  remainder = POP stack
+
+  Add remainder to binaryString
+
+  RETURN binaryString
+ */
+
+String decimalToBinary(int number) {
+  if (number == 0) {
+    return '0';
+  }
+  final Stack<int> stack = Stack<int>();
+
+  while (number > 0) {
+    final int remainder = number % 2;
+    stack.push(remainder);
+
+    number = number ~/ 2;
+  }
+
+  String binary = '';
+  while (stack.isNotEmpty) {
+    binary += stack.pop().toString();
+  }
+  return binary;
+}

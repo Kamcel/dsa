@@ -20,15 +20,21 @@ void main() {
   // empty.peek();
 
   //Reverse string
-  print(reverseAString('MARCEL'));
-  print(reverseAString('RUFAI'));
-  print(reverseAString('DANIEL'));
-  print(reverseAString('BIOCHEMISTRY'));
+  // print(reverseAString('MARCEL'));
+  // print(reverseAString('RUFAI'));
+  // print(reverseAString('DANIEL'));
+  // print(reverseAString('BIOCHEMISTRY'));
 
   //Balance parentheses
-  print(isParenthesesBalanced('()'));
-  print(isParenthesesBalanced('({[]})'));
-  print(isParenthesesBalanced('(()())'));
+  // print(isParenthesesBalanced('()'));
+  // print(isParenthesesBalanced('({[]})'));
+  // print(isParenthesesBalanced('(()())'));
 
-  print(isParenthesesBalanced('(]'));
+  // print(isParenthesesBalanced('(]'));
+
+  //Decimal to Binary
+  print(decimalToBinary(10));
+  print(decimalToBinary(100));
+  print(decimalToBinary(51));
+  print(decimalToBinary(-10));
 }
