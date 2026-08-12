@@ -138,3 +138,85 @@ String decimalToBinary(int number) {
   }
   return binary;
 }
+
+/*
+Broswer back Button
+VISIT: 
+IF there is a current page:
+  PUSH currentPage unto histoty stack 
+
+currentPage = newPage
+
+BACK: 
+  IF history stack is empty
+    RETURN currentPage
+  
+  currentPage = pop history stack
+
+  RETURN currentPage
+ */
+
+class Browser {
+  final Stack<String> _history = Stack<String>();
+
+  String? _currentPage;
+
+  void visit(String newPage) {
+    if (_currentPage != null) {
+      _history.push(_currentPage!);
+    }
+
+    _currentPage = newPage;
+  }
+
+  String? back() {
+    if (_history.isEmpty) {
+      return _currentPage;
+    }
+    _currentPage = _history.pop();
+    return _currentPage;
+  }
+
+  String? get currentPage => _currentPage;
+}
+
+//Undo/ Redo
+class Editor {
+  final Stack<String> _undoStack = Stack<String>();
+  final Stack<String> _redoStack = Stack<String>();
+
+  String _text = '';
+
+  void type(String value) {
+    _undoStack.push(_text);
+
+    _text += value;
+
+    _ClearRedoStack();
+  }
+
+  void undo() {
+    if (_undoStack.isEmpty) {
+      return;
+    }
+
+    _redoStack.push(_text);
+    _text = _undoStack.pop();
+  }
+
+  void redo() {
+    if (_redoStack.isEmpty) {
+      return;
+    }
+    _undoStack.push(_text);
+    _text = _redoStack.pop();
+  }
+
+  String get text => _text;
+
+  void _ClearRedoStack() {
+    while (_redoStack.isNotEmpty) {
+      _redoStack.pop();
+    }
+  }
+}
