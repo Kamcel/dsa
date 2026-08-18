@@ -4,7 +4,7 @@ import 'package:dsa/arrays/fixed_array.dart';
 class CircularQueue<T> {
   final FixedArray<T?> _data;
 
-  CircularQueue(int capacity) : _data = FixedArray(capacity: 5);
+  CircularQueue(int capacity) : _data = FixedArray<T?>(capacity: capacity);
 
   int _front = 0;
   int _size = 0;
