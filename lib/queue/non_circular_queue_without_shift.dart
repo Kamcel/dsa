@@ -1,9 +1,9 @@
 import 'package:dsa/arrays/dynamic_array.dart';
 
-class Queue<T> {
+class NonCircularQueueWithoutShift<T> {
   final DynamicArray<T> _data;
 
-  Queue() : _data = DynamicArray();
+  NonCircularQueueWithoutShift() : _data = DynamicArray();
 
   int _front = 0;
   int _size = 0;
@@ -11,10 +11,12 @@ class Queue<T> {
   Enqueue
   FUNCTION enqueue(newValue)
   data.add(newValue)
+  size++
    */
 
   void enqueue(T newValue) {
     _data.add(newValue);
+    _size++;
   }
   /*
  Dequeue
@@ -57,11 +59,11 @@ class Queue<T> {
   FUNCTION isEmpty()
     RETURN data.isEmpty()
    */
-  bool get isEmpty => _data.size == 0;
+  bool get isEmpty => _size == 0;
   /*
 size
  FUNCTION size()
   RETURN data.size()
    */
-  int get size => _data.size;
+  int get size => _size;
 }

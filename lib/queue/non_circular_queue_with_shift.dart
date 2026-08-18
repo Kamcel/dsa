@@ -1,9 +1,9 @@
 import 'package:dsa/arrays/dynamic_array.dart';
 
-class Queue<T> {
+class NonCircularQueueWithShift<T> {
   final DynamicArray<T> _data;
 
-  Queue() : _data = DynamicArray<T>();
+  NonCircularQueueWithShift() : _data = DynamicArray<T>();
 
   /*
   Enqueue
