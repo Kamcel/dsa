@@ -26,9 +26,10 @@ class Queue<T> {
    */
   T dequeue() {
     if (isEmpty) {
-      throw StateError('Queue underfow');
+      throw StateError('Queue underflow');
     }
-    final value = _data.remove(0);
+    final value = _data.get(0);
+    _data.remove(0);
     return value;
   }
 
