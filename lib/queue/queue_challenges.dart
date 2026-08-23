@@ -19,35 +19,37 @@ import 'dart:collection';
 import 'package:dsa/queue/circular_queue.dart';
 import 'package:dsa/stack/stack_with_dynamic_array.dart';
 
-class Customer{
+class Customer {
   final String name;
   final String service;
   final String productId;
 
   Customer(this.name, this.service, this.productId);
-
-  
-
 }
 
-class CustomerQueue{
+class CustomerQueue {
   final Queue<Customer> _queue = Queue<Customer>();
 
-  void enqueue(Customer customer){
+  void enqueue(Customer customer) {
     _queue.addLast(customer);
   }
-  void processCustomers(){
+
+  void processCustomers() {
     while (_queue.isNotEmpty) {
       final currentCustomer = _queue.first;
-      print('Processing customer: ${currentCustomer.name}, Service: ${currentCustomer.service}, Product ID: ${currentCustomer.productId}');
+      print(
+        'Processing customer: ${currentCustomer.name}, Service: ${currentCustomer.service}, Product ID: ${currentCustomer.productId}',
+      );
       _queue.removeFirst();
     }
   }
 
-  void viewCurrentCustomer(){
+  void viewCurrentCustomer() {
     if (_queue.isNotEmpty) {
       final currentCustomer = _queue.first;
-      print('Current customer: ${currentCustomer.name}, Service: ${currentCustomer.service}, Product ID: ${currentCustomer.productId}');
+      print(
+        'Current customer: ${currentCustomer.name}, Service: ${currentCustomer.service}, Product ID: ${currentCustomer.productId}',
+      );
     } else {
       print('No customers in the queue.');
     }
@@ -75,17 +77,19 @@ WHILE stack is not empty
 END WHILE
  */
 
-final Stack<String> _stack = Stack<String>();
-final CircularQueue<String> queue = CircularQueue<String>();
+void reverseQueue() {
+  final Stack<String> stack = Stack<String>();
+  final CircularQueue<String> queue = CircularQueue<String>(100);
 
-while(queue.isNotEmpty) {
-  final element = queue.dequeue();
-  _stack.push(element);
-}
+  while (!queue.isEmpty) {
+    final element = queue.dequeue();
+    stack.push(element);
+  }
 
-while (_stack.isNotEmpty) {
-  final element = _stack.pop();
-  queue.enqueue(element);
+  while (stack.isNotEmpty) {
+    final element = stack.pop();
+    queue.enqueue(element);
+  }
 }
 
 /*
@@ -102,26 +106,21 @@ REPEAT N times
   ENQUEUE the new number
 END REPEAT
  */
-final CircularQueue<int> binaryQueue = CircularQueue<int>(100);
-binaryQueue.enqueue(1);
+void generateBinaryNumber() {
+  final CircularQueue<String> binaryQueue = CircularQueue<String>(100);
 
+  binaryQueue.enqueue('1');
+  const int n = 5;
 
+  for (int i = 0; i < n; i++) {
+    final current = binaryQueue.dequeue();
 
+    print(current);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    binaryQueue.enqueue('${current}0');
+    binaryQueue.enqueue('${current}1');
+  }
+}
 
 /*
 4. Hot Potato
@@ -138,23 +137,29 @@ END WHILE
 DEQUEUE the final remaining person
 DECLARE that person the winner
  */
-final CircularQueue<String> hotPotatoQueue = CircularQueue<String>(100);
-while (hotPotatoQueue.size > 1) {
-  for (int i = 0; i < count - 1; i++) {
-    final person = hotPotatoQueue.dequeue();
-    hotPotatoQueue.enqueue(person);
+
+void hotPotato() {
+  final CircularQueue<String> hotPotatoQueue = CircularQueue<String>(100);
+
+  hotPotatoQueue.enqueue('A');
+  hotPotatoQueue.enqueue('B');
+  hotPotatoQueue.enqueue('C');
+  hotPotatoQueue.enqueue('D');
+  hotPotatoQueue.enqueue('E');
+
+  const int count = 3;
+
+  while (hotPotatoQueue.size > 1) {
+    for (int i = 0; i < count - 1; i++) {
+      final person = hotPotatoQueue.dequeue();
+      hotPotatoQueue.enqueue(person);
+    }
+    final eliminatedPerson = hotPotatoQueue.dequeue();
+    print('Eliminated: $eliminatedPerson');
   }
-  final eliminatedPerson = hotPotatoQueue.dequeue();
-  print('Eliminated: $eliminatedPerson');
+  final winner = hotPotatoQueue.dequeue();
+  print('Winner: $winner');
 }
-final winner = hotPotatoQueue.dequeue();
-print('Winner: $winner'); 
-
-
-
-
-
-
 
 /*
 5. First Non-repeating Character
@@ -179,4 +184,28 @@ IF queue is not empty
   END IF
 END FOR
  */
+void firstNonRepeatingNumber() {
+  final CircularQueue<String> characterQueue = CircularQueue<String>(100);
 
+  final Map<String, int> frequency = {};
+  const String input = 'abcd';
+
+  for (int i = 0; i < input.length; i++) {
+    final character = input[i];
+
+    frequency[character] = (frequency[character] ?? 0) + 1;
+    characterQueue.enqueue(character);
+
+    while (!characterQueue.isEmpty && frequency[characterQueue.peek()]! > 1) {
+      characterQueue.dequeue();
+    }
+    if (!characterQueue.isEmpty) {
+      print(
+        'First non-repeating character: '
+        '${characterQueue.peek()}',
+      );
+    } else {
+      print('No non-repeatibg character');
+    }
+  }
+}
