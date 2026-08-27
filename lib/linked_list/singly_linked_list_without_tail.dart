@@ -46,4 +46,27 @@ class SinglyLinkedListWithoutTail<T> {
       current = current.next;
     }
   }
+
+  T? removeFirst() {
+    if (head == null) {
+      return null;
+    }
+    final removedValue = head!.value;
+    head = head!.next;
+    return removedValue;
+  }
+
+  T? removeLast() {
+    if (head == null) {
+      return null;
+    }
+    final current = head;
+    while (current!.next != null) {
+      final removedValue = head!.value;
+      current.next = null;
+      return removedValue;
+    }
+  }
+
+  void insertAT(index, T data) {}
 }
