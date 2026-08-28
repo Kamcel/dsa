@@ -60,12 +60,17 @@ class SinglyLinkedListWithoutTail<T> {
     if (head == null) {
       return null;
     }
-    final current = head;
-    while (current!.next != null) {
-      final removedValue = head!.value;
-      current.next = null;
-      return removedValue;
+    if (head!.next == null) {
+      return removeFirst();
     }
+    Node<T> current = head!;
+
+    while (current.next!.next != null) {
+      current = current.next!;
+    }
+    final removedValue = current.next!.value;
+    current.next = null;
+    return removedValue;
   }
 
   void insertAt(int index, T data) {
