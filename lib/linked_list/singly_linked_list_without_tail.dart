@@ -68,5 +68,45 @@ class SinglyLinkedListWithoutTail<T> {
     }
   }
 
-  void insertAT(index, T data) {}
+  void insertAt(int index, T data) {
+    if (index == 0) {
+      prepend(data);
+      return;
+    }
+    Node<T>? current = head;
+    int currentIndex = 0;
+
+    while (current != null && currentIndex < index - 1) {
+      current = current.next;
+      currentIndex++;
+    }
+    if (current == null) {
+      throw StateError('Index is out of bounds!');
+    }
+    final newNode = Node<T>(data);
+    newNode.next = current.next; //connect to next node before break
+    current.next = newNode; //  sever rope
+  }
+
+  T? removeAt(int index) {
+    if (head == null) {
+      return null;
+    }
+    if (index == 0) {
+      return removeFirst();
+    }
+    Node<T>? current = head;
+    int currentIndex = 0;
+
+    while (current != null && currentIndex < index - 1) {
+      current = current.next;
+      currentIndex++;
+    }
+    if (current == null || current.next == null) {
+      throw StateError('Index out of bounds');
+    }
+    final removedData = current.next!.value;
+    current.next = current.next!.next;
+    return removedData;
+  }
 }
