@@ -134,14 +134,19 @@ WHILE current.next.next is NOT null
       throw StateError('Can\'t remove empty list');
     }
     if (head!.next == null) {
+      final removedValue = head!.value;
       head = null;
+      tail = null;
+      return removedValue;
     }
-    final removedValue = head!.value;
-    Node<T>? current = head;
-    while (current!.next!.next != null) {
-      current = current.next;
-      current!.next = tail;
+    Node<T> current = head!;
+
+    while (current.next!.next != null) {
+      current = current.next!;
     }
+    final removedValue = current.next!.value;
+    current.next = null;
+    tail = current;
     return removedValue;
   }
 }
