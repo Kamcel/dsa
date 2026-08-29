@@ -149,4 +149,41 @@ WHILE current.next.next is NOT null
     tail = current;
     return removedValue;
   }
+ALGORITHM insertAt(index, data):
+    // 🪤 Step 1: Validate Index (Boundary Error Check)
+    IF index < 0 OR index > size THEN
+        THROW RangeError("Index out of bounds")
+    END IF
+
+    // 🟢 Scenario 1: Insert at Front (index == 0)
+    IF index == 0 THEN
+        prepend(data)   // Handles head & tail updates automatically!
+        RETURN
+    END IF
+
+    // 🔴 Scenario 2: Insert at End (index == size)
+    IF index == size THEN
+        append(data)    // Handles head & tail updates automatically!
+        RETURN
+    END IF
+
+    // 🟡 Scenario 3: Insert in Middle (0 < index < size)
+    CREATE newNode with data
+
+    // 🚶 Step 3a: Crawl to node at index - 1 (node right BEFORE insertion point)
+    SET current = head
+    FOR i FROM 0 TO index - 2 DO
+        SET current = current.next
+    END FOR
+
+    // 🪢 Step 3b: Re-link ropes using the 2-step formula
+    // (Attach new rope FIRST before cutting the old rope!)
+    SET newNode.next = current.next
+    SET current.next = newNode
+
+    INCREMENT size
+END ALGORITHM
+
+
+
 }
