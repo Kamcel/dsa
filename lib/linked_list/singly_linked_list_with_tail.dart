@@ -10,6 +10,7 @@ class Node<T> {
 class SinglyListWithTail<T> {
   Node<T>? head;
   Node<T>? tail;
+  int size = 0;
 
   /*
 append
@@ -149,73 +150,93 @@ WHILE current.next.next is NOT null
     tail = current;
     return removedValue;
   }
+
+  /*
 ALGORITHM insertAt(index, data):
-    // 🪤 Step 1: Validate Index (Boundary Error Check)
+
     IF index < 0 OR index > size THEN
         THROW RangeError("Index out of bounds")
     END IF
-
-    // 🟢 Scenario 1: Insert at Front (index == 0)
     IF index == 0 THEN
         prepend(data)   // Handles head & tail updates automatically!
         RETURN
     END IF
-
-    // 🔴 Scenario 2: Insert at End (index == size)
     IF index == size THEN
         append(data)    // Handles head & tail updates automatically!
         RETURN
     END IF
-
-    // 🟡 Scenario 3: Insert in Middle (0 < index < size)
     CREATE newNode with data
-
-    // 🚶 Step 3a: Crawl to node at index - 1 (node right BEFORE insertion point)
     SET current = head
     FOR i FROM 0 TO index - 2 DO
         SET current = current.next
     END FOR
-
-    // 🪢 Step 3b: Re-link ropes using the 2-step formula
-    // (Attach new rope FIRST before cutting the old rope!)
     SET newNode.next = current.next
     SET current.next = newNode
-
     INCREMENT size
 END ALGORITHM
+   */
 
+  void insertAt(int index, T data) {
+    if (index < 0 || index > size) {
+      throw StateError('Index out of bound');
+    }
+    if (index == 0) {
+      prepend(data);
+    }
 
+    if (index == size) {
+      append(data);
+    }
+    final newNode = Node<T>(data);
+    Node<T>? current = head!;
+    for (int i = 0; i < index - 1; i++) {
+      current = current!.next;
+    }
+    newNode.next = current!.next;
+    current.next = newNode;
+    size++;
+  }
+
+  /*
 ALGORITHM deleteAt(index):
-    // 🪤 Step 1: Validate Index (Boundary Check)
+  
     IF index < 0 OR index >= size THEN
         THROW RangeError("Index out of bounds")
     END IF
-
-    // 🟢 Scenario 1: Delete at Front (index == 0)
     IF index == 0 THEN
         RETURN removeFirst()   // Handles head and single-node tail updates automatically!
     END IF
-
-    // 🔴 Scenario 2: Delete at End (index == size - 1)
     IF index == size - 1 THEN
         RETURN removeLast()    // Crawls to index size - 2 and updates tail!
     END IF
-
-    // 🟡 Scenario 3: Delete from Middle (0 < index < size - 1)
-    // 🚶 Step 3a: Crawl to node at index - 1 (node BEFORE target)
     SET current = head
     FOR i FROM 0 TO index - 2 DO
         SET current = current.next
     END FOR
-
-    // 🪢 Step 3b: Save removed value and bypass target node
     SET removedValue = current.next.value
     SET current.next = current.next.next
-
     DECREMENT size
     RETURN removedValue
 END ALGORITHM
+*/
+  T? deleteAt(int index) {
+    if (index < 0 || index >= size) {
+      throw StateError('Index out of bounds');
+    }
+    if (index == 0) {
+      return removeFirst();
+    }
+    if (index == size - 1) {
+      removeLast();
+    }
 
-
-
+    Node<T> current = head!;
+    for (int i = 0; i < index - 1; i++) {
+      current = current.next!;
+    }
+    final removedValue = current.next!.value;
+    current.next = current.next!.next;
+    size--;
+    return removedValue;
+  }
 }
