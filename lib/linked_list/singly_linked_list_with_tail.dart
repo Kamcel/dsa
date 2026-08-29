@@ -7,7 +7,7 @@ class Node<T> {
   Node(this.value, [this.next]);
 }
 
-class SinglyListListWithTail<T> {
+class SinglyListWithTail<T> {
   Node<T>? head;
   Node<T>? tail;
 
@@ -79,5 +79,69 @@ END ALGORITHM
       print(current.value);
       current = current.next;
     }
+  }
+
+  /*
+ALGORITHM removeFirst():
+    IF head is null THEN
+        RETURN null
+    END IF
+    removedValue = head.value
+    head = head.next
+
+    IF head is null THEN
+     tail = null
+    END IF
+
+    RETURN removedValue
+END ALGORITHM
+
+ */
+  T? removeFirst() {
+    if (head == null) {
+      throw StateError('Can\'t remove empty list');
+    }
+    final removedValue = head!.value;
+    head = head!.next;
+    if (head == null) {
+      tail = null;
+    }
+    return removedValue;
+  }
+
+  /* 
+ALGORITHM removeLast():
+IF head is null 
+    RETURN null
+END IF
+
+IF head.next is null
+    SET head = null 
+    RETURN
+END IF
+
+SET current = head
+WHILE current.next.next is NOT null
+    SET  current = current.next
+
+    SET current.next = null
+
+
+*/
+
+  T? removeLast() {
+    if (head == null) {
+      throw StateError('Can\'t remove empty list');
+    }
+    if (head!.next == null) {
+      head = null;
+    }
+    final removedValue = head!.value;
+    Node<T>? current = head;
+    while (current!.next!.next != null) {
+      current = current.next;
+      current!.next = tail;
+    }
+    return removedValue;
   }
 }
