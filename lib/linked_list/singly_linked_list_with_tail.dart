@@ -67,9 +67,13 @@ CREATE current
     WHILE current is not null
         PRINT current value
         ADVANCE
+END ALGORITHM
  */
 
   void printList() {
+    if (head == null) {
+      throw StateError('List is Empty');
+    }
     Node<T>? current = head;
     while (current != null) {
       print(current.value);
