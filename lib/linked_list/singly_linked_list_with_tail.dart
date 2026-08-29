@@ -185,5 +185,37 @@ ALGORITHM insertAt(index, data):
 END ALGORITHM
 
 
+ALGORITHM deleteAt(index):
+    // 🪤 Step 1: Validate Index (Boundary Check)
+    IF index < 0 OR index >= size THEN
+        THROW RangeError("Index out of bounds")
+    END IF
+
+    // 🟢 Scenario 1: Delete at Front (index == 0)
+    IF index == 0 THEN
+        RETURN removeFirst()   // Handles head and single-node tail updates automatically!
+    END IF
+
+    // 🔴 Scenario 2: Delete at End (index == size - 1)
+    IF index == size - 1 THEN
+        RETURN removeLast()    // Crawls to index size - 2 and updates tail!
+    END IF
+
+    // 🟡 Scenario 3: Delete from Middle (0 < index < size - 1)
+    // 🚶 Step 3a: Crawl to node at index - 1 (node BEFORE target)
+    SET current = head
+    FOR i FROM 0 TO index - 2 DO
+        SET current = current.next
+    END FOR
+
+    // 🪢 Step 3b: Save removed value and bypass target node
+    SET removedValue = current.next.value
+    SET current.next = current.next.next
+
+    DECREMENT size
+    RETURN removedValue
+END ALGORITHM
+
+
 
 }
