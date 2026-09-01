@@ -128,14 +128,15 @@ tail = newNode
       final removedValue = head!.value;
       head = null;
       tail = null;
+      size--;
       return removedValue;
     }
     final removedValue = head!.value;
-    if (size > 1) {
-      head = head!.next;
-      head!.prev = null;
-      size--;
-    }
+
+    head = head!.next;
+    head!.prev = null;
+    size--;
+
     return removedValue;
   }
 
@@ -159,13 +160,15 @@ tail = newNode
       final removedValue = head!.value;
       head = null;
       tail = null;
+      size--;
       return removedValue;
     }
     final removedValue = tail!.value;
-    if (size > 1) {
-      tail = tail!.prev;
-      tail!.next = null;
-    }
+
+    tail = tail!.prev;
+    tail!.next = null;
+    size--;
+
     return removedValue;
   }
 }
