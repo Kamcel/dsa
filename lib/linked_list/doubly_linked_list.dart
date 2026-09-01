@@ -21,26 +21,26 @@ class DoublyLinkedList<T> {
   ALGORITHM append(T data) 
   CREATE newNode
   CHECK if list is empty THEN 
-  newValue = head
+  head = newNode
+  tail = newNode
   RETURN
   newNode.next = head
-  head = newNode
-  newNode.prev = null
+  head.prev = newNode
   head = newNode
 
    */
 
   void prepend(T data) {
     final newNode = Node<T>(value: data);
-    if (head == null || size == 0) {
+    if (isEmpty) {
       head = newNode;
       tail = newNode;
     } else {
       newNode.next = head;
-      head = newNode;
-      newNode.prev = null;
+      head!.prev = newNode;
       head = newNode;
     }
+    size++;
   }
 
   /*
@@ -60,12 +60,12 @@ tail = newNode
     final newNode = Node(value: data);
     if (isEmpty) {
       prepend(data);
-    } else {
-      tail!.next = newNode;
-      newNode.prev = tail;
-      newNode.next = null;
-      tail = newNode;
+      return;
     }
+    tail!.next = newNode;
+    newNode.prev = tail;
+    tail = newNode;
+    size++;
   }
 
   //traverse forward()
