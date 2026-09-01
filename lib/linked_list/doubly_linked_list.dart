@@ -97,7 +97,7 @@ tail = newNode
   PRINT current value
   current = current.prev
  */
-  void traverseBackword() {
+  void traverseBackward() {
     if (isEmpty) {
       throw StateError('List is Empty');
     }
@@ -106,5 +106,66 @@ tail = newNode
       print(current.value);
       current = current.prev;
     }
+  }
+  /*
+  removeFirst
+
+  ALGORITHM removeFirst()
+  IF isEmpty throw can't remove from an empty list 
+  if it's just one node(head = tail) 
+  SET head = null
+  SET tail = null
+  if more than 1 or more
+  head = head.next 
+  head.prev = null
+   */
+
+  T? removeFirst() {
+    if (isEmpty) {
+      throw StateError('Can\'t remove from an empty list');
+    }
+    if (head == tail || size == 1) {
+      final removedValue = head!.value;
+      head = null;
+      tail = null;
+      return removedValue;
+    }
+    final removedValue = head!.value;
+    if (size > 1) {
+      head = head!.next;
+      head!.prev = null;
+      size--;
+    }
+    return removedValue;
+  }
+
+  /*
+  removeLast 
+
+  ALGORITHM removeLast()
+  IF isEmpty throw can't remove from an empty list 
+  if it's just one node(head = tail) 
+  SET head = null
+  SET tail = null
+  if more than 1 or more
+  tail = tail.prev 
+  tail.next = null
+   */
+  T? removeLast() {
+    if (isEmpty) {
+      throw StateError('Can\'t remove from an empty list');
+    }
+    if (head == tail || size == 1) {
+      final removedValue = head!.value;
+      head = null;
+      tail = null;
+      return removedValue;
+    }
+    final removedValue = tail!.value;
+    if (size > 1) {
+      tail = tail!.prev;
+      tail!.next = null;
+    }
+    return removedValue;
   }
 }
