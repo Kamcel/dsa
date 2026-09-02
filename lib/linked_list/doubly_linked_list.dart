@@ -322,4 +322,64 @@ RETURN null
       return current!;
     }
   }
+
+  /*
+  ALGORITHM insertAt(int index, data):
+  IF index is < 0 or > size throw out of bound error
+  IF index is 0
+  prepend
+  return
+  IF index is size 
+  append
+  return
+  CREATE newNode
+  current is the getter
+  newNode.next = current
+  newNode.prev = current.prev
+  current.prev.next = newNode
+  current.prev = newNode
+  INCREMENT size
+   */
+  void insertAt(int index, T data) {
+    if (index < 0 || index > size) {
+      throw StateError('Index is out of bound. Size: $size');
+    }
+    if (index == 0) {
+      prepend(data);
+      return;
+    }
+    if (index == size) {
+      append(data);
+      return;
+    }
+    final current = _getCurrentNode(index);
+    final newNode = Node(value: data);
+    newNode.next = current;
+    newNode.prev = current.prev;
+    current.prev!.next = newNode;
+    current.prev = newNode;
+  }
+
+  /*
+  ALGORITHM removeAt(int index):
+  check is empty
+  use current getter
+  CREATE nextTwoNodes
+  STORE removedValue
+  current = nextTwoNodes
+  nextTwoNode.prev = current
+  return returnValue
+   */
+
+  T? removeAt(int index) {
+    if (isEmpty) {
+      throw StateError('List is empty');
+    }
+    Node<T>? current = _getCurrentNode(index);
+    final removedValue = current.next!.value;
+    final nextTwoNodes = current.next!.next;
+    current = nextTwoNodes;
+    nextTwoNodes!.prev = current;
+    return removedValue;
+  }
 }
