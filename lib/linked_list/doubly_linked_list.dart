@@ -375,11 +375,19 @@ RETURN null
     if (isEmpty) {
       throw StateError('List is empty');
     }
-    Node<T>? current = _getCurrentNode(index);
-    final removedValue = current.next!.value;
-    final nextTwoNodes = current.next!.next;
-    current = nextTwoNodes;
-    nextTwoNodes!.prev = current;
+    if (index == 0) {
+      removeFirst();
+    }
+    if (index == size) {
+      removeLast();
+    }
+    Node<T>? targetNode = _getCurrentNode(index);
+    final removedValue = targetNode.value;
+    final prevNode = targetNode.prev!;
+    final nextNode = targetNode.next!;
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
+    size--;
     return removedValue;
   }
 }
