@@ -173,34 +173,35 @@ tail = newNode
   }
 
   /*
-ALGORITHM insertAfter()
+ALGORITHM insertAfter(target, data)
 CREATE newNode
 CREATE current
 CREATE nextNode
-IF isEmpty 
-prepend
-
+newNode.next = newNode
 newNode.prev = current
-newNode.next = nextNode
 current.next = newNode
 IF nextNode is not null
 nextNode.prev = newNode
+ELSE
+tail = newNode
+INCREMENT size++;
 */
-
   void insertAfter(Node<T> target, T data) {
-    final newNode = Node(value: data);
-    final Node<T>? current = head;
-    final Node<T>? nextNode = current!.next;
-
     if (isEmpty) {
       prepend(data);
       return;
     }
+    final Node<T> newNode = Node(value: data);
+    final Node<T> current = target;
+    final nextNode = target.next;
+    newNode.next = newNode;
     newNode.prev = current;
-    newNode.next = nextNode;
     current.next = newNode;
     if (nextNode == null) {
       nextNode!.prev = newNode;
+    } else {
+      tail = newNode;
     }
+    size++;
   }
 }
