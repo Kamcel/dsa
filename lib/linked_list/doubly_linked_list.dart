@@ -204,4 +204,37 @@ INCREMENT size++;
     }
     size++;
   }
+
+  /*
+  ALGORITHM insertBefore(target, data)
+CREATE newNode
+CREATE current
+CREATE prevNode
+newNode.next = current
+newNode.prev = prevNode
+current.prev = newNode
+IF prevNode is not null
+prevNode.next = newNode
+ELSE
+head = newNode
+INCREMENT size++;
+*/
+  void insertBefore(Node<T> target, T data) {
+    if (isEmpty) {
+      prepend(data);
+      return;
+    }
+    final Node<T> newNode = Node(value: data);
+    final Node<T> current = target;
+    final Node<T>? prevNode = current.prev;
+    newNode.next = current;
+    newNode.prev = prevNode;
+    current.prev = newNode;
+    if (prevNode != null) {
+      prevNode.next = newNode;
+    } else {
+      head = newNode;
+    }
+    size++;
+  }
 }
