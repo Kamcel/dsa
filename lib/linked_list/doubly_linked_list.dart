@@ -237,4 +237,62 @@ INCREMENT size++;
     }
     size++;
   }
+
+  /*
+  ALGORITHM removeAfter(target)
+  IF list is empty throw can't remove from empty list
+CREATE current
+CREATE nextTwoNodes
+STORE removedNode
+IF nextNode is null
+RETURN null
+
+
+
+   */
+  T? removeAfter(Node<T> target) {
+    if (isEmpty) {
+      throw StateError('Can\'t remove from an empty list');
+    }
+    final Node<T> current = target;
+    final Node<T>? nextNode = current.next;
+    final Node<T>? nextTwoNodes = current.next!.next;
+    final removedValue = current.next!.value;
+    if (nextNode == null) {
+      return null;
+    }
+    current.next = nextTwoNodes;
+    nextTwoNodes?.prev = current;
+    size--;
+    return removedValue;
+  }
+
+  /*
+  ALGORITHM removeBefore(target)
+  IF list is empty throw can't remove from empty list
+CREATE current
+CREATE prevTwoNodes
+STORE removedNode
+IF prevNode is null
+RETURN null
+
+
+
+   */
+  T? removeBefore(Node<T> target) {
+    if (isEmpty) {
+      throw StateError('Can\'t remove from an empty list');
+    }
+    final Node<T> current = target;
+    final Node<T>? prevNode = current.prev;
+    final Node<T>? prevTwoNodes = current.prev!.prev;
+    final removedValue = current.prev!.value;
+    if (prevNode == null) {
+      return null;
+    }
+    current.prev = prevTwoNodes;
+    prevTwoNodes?.next = current;
+    size--;
+    return removedValue;
+  }
 }
