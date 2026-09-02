@@ -256,13 +256,18 @@ RETURN null
     }
     final Node<T> current = target;
     final Node<T>? nextNode = current.next;
-    final Node<T>? nextTwoNodes = current.next!.next;
-    final removedValue = current.next!.value;
     if (nextNode == null) {
       return null;
     }
+    final Node<T>? nextTwoNodes = nextNode.next;
+    final removedValue = nextNode.value;
+
     current.next = nextTwoNodes;
-    nextTwoNodes?.prev = current;
+    if (nextTwoNodes != null) {
+      nextTwoNodes.prev = current;
+    } else {
+      tail = current;
+    }
     size--;
     return removedValue;
   }
@@ -285,13 +290,18 @@ RETURN null
     }
     final Node<T> current = target;
     final Node<T>? prevNode = current.prev;
-    final Node<T>? prevTwoNodes = current.prev!.prev;
-    final removedValue = current.prev!.value;
     if (prevNode == null) {
       return null;
     }
+    final Node<T>? prevTwoNodes = prevNode.prev;
+    final removedValue = prevNode.value;
+
     current.prev = prevTwoNodes;
-    prevTwoNodes?.next = current;
+    if (prevTwoNodes != null) {
+      prevTwoNodes.next = current;
+    } else {
+      head = current;
+    }
     size--;
     return removedValue;
   }
