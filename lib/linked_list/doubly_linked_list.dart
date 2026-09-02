@@ -305,4 +305,21 @@ RETURN null
     size--;
     return removedValue;
   }
+
+  //current getter
+  Node<T> _getCurrentNode(int index) {
+    if (index < size / 2) {
+      Node<T>? current = head;
+      for (int i = 0; i < index; i++) {
+        current = current!.next;
+      }
+      return current!;
+    } else {
+      Node<T>? current = tail;
+      for (int i = size - 1; i > index; i--) {
+        current = current!.prev;
+      }
+      return current!;
+    }
+  }
 }
