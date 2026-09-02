@@ -171,4 +171,36 @@ tail = newNode
 
     return removedValue;
   }
+
+  /*
+ALGORITHM insertAfter()
+CREATE newNode
+CREATE current
+CREATE nextNode
+IF isEmpty 
+prepend
+
+newNode.prev = current
+newNode.next = nextNode
+current.next = newNode
+IF nextNode is not null
+nextNode.prev = newNode
+*/
+
+  void insertAfter(Node<T> target, T data) {
+    final newNode = Node(value: data);
+    final Node<T>? current = head;
+    final Node<T>? nextNode = current!.next;
+
+    if (isEmpty) {
+      prepend(data);
+      return;
+    }
+    newNode.prev = current;
+    newNode.next = nextNode;
+    current.next = newNode;
+    if (nextNode == null) {
+      nextNode!.prev = newNode;
+    }
+  }
 }
