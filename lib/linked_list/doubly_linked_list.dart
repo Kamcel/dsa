@@ -198,7 +198,7 @@ INCREMENT size++;
     newNode.prev = current;
     current.next = newNode;
     if (nextNode != null) {
-      nextNode!.prev = newNode;
+      nextNode.prev = newNode;
     } else {
       tail = newNode;
     }
