@@ -194,10 +194,10 @@ INCREMENT size++;
     final Node<T> newNode = Node(value: data);
     final Node<T> current = target;
     final nextNode = target.next;
-    newNode.next = newNode;
+    newNode.next = nextNode;
     newNode.prev = current;
     current.next = newNode;
-    if (nextNode == null) {
+    if (nextNode != null) {
       nextNode!.prev = newNode;
     } else {
       tail = newNode;
