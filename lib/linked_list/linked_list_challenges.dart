@@ -56,7 +56,6 @@ Node<int>? reverseList(Node<int>? head) {
     current.next = prev;
     prev = current;
     current = next;
-    head = prev;
   }
   return head;
 }
