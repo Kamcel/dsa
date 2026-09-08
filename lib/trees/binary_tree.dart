@@ -1,3 +1,6 @@
+// Always start building from leave then make your way up to the root,
+//or use the nested method that starts from root
+
 import 'package:dsa/trees/tree_node.dart';
 
 void main() {
