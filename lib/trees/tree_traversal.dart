@@ -35,3 +35,21 @@ void postOrder(TreeNode<int>? node) {
   postOrder(node.right);
   print(node.value);
 }
+
+void main() {
+  final root = TreeNode<int>(
+    value: 10,
+    left: TreeNode<int>(
+      value: 5,
+      left: TreeNode<int>(value: 2),
+      right: TreeNode<int>(value: 8),
+    ),
+    right: TreeNode<int>(value: 20),
+  );
+  print('Pre-order traversal:');
+  preOrder(root);
+  print('In-order traversal:');
+  inOrder(root);
+  print('Post-order traversal:');
+  postOrder(root);
+}
