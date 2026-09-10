@@ -1,5 +1,5 @@
 // Also known as Depth-First-Search
-
+// USE STACK - RECURSION
 //preOrder
 //N->L->R
 // Visit Node, then Left, then Right
@@ -39,6 +39,7 @@ void postOrder(TreeNode<int>? node) {
 
 /*
 Breadth-first search
+USE QUEUE
 Step
 1. Put the root into the queue
 2. Loop through the tree, while queue is not empty
