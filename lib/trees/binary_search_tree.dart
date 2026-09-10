@@ -28,3 +28,43 @@ TreeNode<int>? search(TreeNode<int>? node, int target) {
     return search(node.right, target);
   }
 }
+
+/*
+ALGORITHM findMin(node):
+IF node is null RETURN null
+CREATE current
+WHILE current.left is not null
+current = current.left
+RETURN current
+ */
+
+TreeNode<int>? findMin(TreeNode<int>? root) {
+  if (root == null) {
+    return null;
+  }
+  TreeNode<int>? current = root;
+  while (current!.left != null) {
+    current = current.left;
+  }
+  return current;
+}
+
+/*
+ALGORITHM findMax(node):
+IF node is null RETURN null
+CREATE current
+WHILE current.right is not null
+current = current.right
+RETURN current
+ */
+
+TreeNode<int>? findMax(TreeNode<int>? root) {
+  if (root == null) {
+    return null;
+  }
+  TreeNode<int>? current = root;
+  while (current!.right != null) {
+    current = current.right;
+  }
+  return current;
+}
