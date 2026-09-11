@@ -68,3 +68,74 @@ TreeNode<int>? findMax(TreeNode<int>? root) {
   }
   return current;
 }
+
+/*
+ALGORITHM insert(node, target) {
+IF node is null 
+    CREATE newNode
+}
+IF target < node.value
+    node.left = insert(node.left, target) 
+ELSE 
+    node.right = insert(node.right, target)
+    RETURN node 
+ */
+
+TreeNode<int>? insert(TreeNode<int>? node, int target) {
+  if (node == null) {
+    TreeNode<int> newNode = TreeNode(value: target);
+    return newNode;
+  }
+  if (target < node.value) {
+    node.left = insert(node.left, target);
+  } else {
+    node.right = insert(node.right, target);
+  }
+  return node;
+}
+
+/*
+ALGORITHM delete(node, target):
+IF node IS null THEN RETURN null
+
+IF target < node.value THEN
+    node.left = delete(node.left, target)
+ELSE IF target > node.value THEN
+    node.right = delete(node.right, target)
+ELSE 
+    IF node.left is null THEN
+        RETURN node.right
+    ELSE node.right is null THEN
+        RETURN node.left
+
+    CREATE successor = findMin(node.right)
+
+    node.value = successor.value
+    node.right = delete(node.right, successor.value)
+    RETURN node
+*/
+
+TreeNode<int>? delete(TreeNode<int>? node, int target) {
+  if (node == null) {
+    return null;
+  }
+
+  if (target < node.value) {
+    node.left = delete(node.left, target);
+  } else if (target > node.value) {
+    node.right = delete(node.right, target);
+  } else {
+    if (node.left == null) {
+      return node.right;
+    } else {
+      if (node.right == null) {
+        return node.left;
+      }
+
+      TreeNode<int>? successor = findMin(node.right);
+      node.value = successor!.value;
+      node.right = delete(node.right, successor.value);
+    }
+  }
+  return node;
+}
