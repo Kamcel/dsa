@@ -1,3 +1,14 @@
+class AvlTreeNode<T> {
+  T value;
+  AvlTreeNode<T>? left;
+  AvlTreeNode<T>? right;
+  int height;
+
+  AvlTreeNode({required this.value, this.left, this.right, this.height = 0});
+}
+
+
+/*
 Function insert(node, newValue):
     // Step 1: Standard BST Insertion
     If node is null:
@@ -37,3 +48,5 @@ Function insert(node, newValue):
         Return rotateLeft(node)              // Step B: Rotate node left
 
     Return node // Node remains balanced, return it unchanged
+
+ */
