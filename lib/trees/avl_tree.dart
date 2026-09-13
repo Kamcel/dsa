@@ -50,3 +50,79 @@ Function insert(node, newValue):
     Return node // Node remains balanced, return it unchanged
 
  */
+
+
+/*
+FUNCTION delete(node, target):
+    // -------------------------------------------------------------
+    // PHASE 1: STANDARD BST DELETION
+    // -------------------------------------------------------------
+    IF node IS NULL:
+        RETURN NULL  // Target element not found in tree
+
+    IF target < node.value:
+        node.left = delete(node.left, target)
+    ELSE IF target > node.value:
+        node.right = delete(node.right, target)
+    ELSE:
+        // Found target node! Handle child cases.
+        
+        // Case A & B: 0 Children or 1 Child
+        IF node.left IS NULL:
+            RETURN node.right
+        ELSE IF node.right IS NULL:
+            RETURN node.left
+        
+        // Case C: 2 Children
+        // 1. Get in-order successor (smallest node in right subtree)
+        Node successor = getMinValueNode(node.right)
+        
+        // 2. Copy successor value to current node
+        node.value = successor.value
+        
+        // 3. Recursively delete successor from right subtree
+        node.right = delete(node.right, successor.value)
+
+    // If the tree had only 1 node and it was deleted
+    IF node IS NULL:
+        RETURN NULL
+
+    // -------------------------------------------------------------
+    // PHASE 2: RECALCULATE HEIGHT & REBALANCE (STACK UNWINDING)
+    // -------------------------------------------------------------
+    
+    // 1. Update Height
+    node.height = 1 + MAX(getHeight(node.left), getHeight(node.right))
+
+    // 2. Compute Balance Factor
+    INT bf = getBalanceFactor(node)
+
+    // 3. Rebalance if unbalanced (|bf| > 1)
+    
+    // Left Heavy Case
+    IF bf > 1:
+        // Note: For deletion, we check IF child BF < 0 for LR case
+        IF getBalanceFactor(node.left) < 0:
+            node.left = rotateLeft(node.left)
+        RETURN rotateRight(node)
+
+    // Right Heavy Case
+    IF bf < -1:
+        // Note: For deletion, we check IF child BF > 0 for RL case
+        IF getBalanceFactor(node.right) > 0:
+            node.right = rotateRight(node.right)
+        RETURN rotateLeft(node)
+
+    // 4. Return balanced node pointer
+    RETURN node
+
+// -----------------------------------------------------------------
+// HELPER: FIND IN-ORDER SUCCESSOR
+// -----------------------------------------------------------------
+FUNCTION getMinValueNode(node):
+    Node current = node
+    WHILE current.left IS NOT NULL:
+        current = current.left
+    RETURN current
+
+*/
