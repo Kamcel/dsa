@@ -59,7 +59,7 @@ AvlTreeNode<int>? insert(AvlTreeNode<int>? node, int newNode) {
 
   if (newNode < node.value) {
     node.left = insert(node.left, newNode);
-  } else if (newNode < node.value) {
+  } else if (newNode > node.value) {
     node.right = insert(node.right, newNode);
   } else {
     return node;
@@ -71,19 +71,20 @@ AvlTreeNode<int>? insert(AvlTreeNode<int>? node, int newNode) {
     return _rotateRight(node);
   }
 
-  if (bf < -1 && newNode > node.left!.value) {
+  if (bf < -1 && newNode > node.right!.value) {
     return _rotateLeft(node);
   }
 
   if (bf > 1 && newNode < node.left!.value) {
-    node.left = _rotateLeft(node.left);
+    node.left = _rotateLeft(node.left!);
     return _rotateRight(node);
   }
 
-  if (bf < -1 && newNode > node.left!.value) {
-    node.right = _rotateRight(node.right);
+  if (bf < -1 && newNode > node.right!.value) {
+    node.right = _rotateRight(node.right!);
     return _rotateLeft(node);
   }
+  return node;
 }
 /*
 FUNCTION delete(node, target):
@@ -171,6 +172,7 @@ void _updateHeight(AvlTreeNode<int>? node) {
 
 int? _getHeight(AvlTreeNode<int>? node) {
   if (node == null) return -1;
+  return node.height;
 }
 
 int _getBalanceFactor(AvlTreeNode<int>? node) {
@@ -181,6 +183,34 @@ int _getBalanceFactor(AvlTreeNode<int>? node) {
   return balanceFactor;
 }
 
-void _rotateRight(AvlTreeNode<int>? node) {}
+AvlTreeNode<int> _rotateRight(AvlTreeNode<int> y) {
+  AvlTreeNode<int> x = y.left!;
+  AvlTreeNode<int>? T2 = x.right;
 
-void _rotateLeft(AvlTreeNode<int>? node) {}
+  // Perform rotation
+  x.right = y;
+  y.left = T2;
+
+  // Update heights
+  _updateHeight(y);
+  _updateHeight(x);
+
+  // Return new root
+  return x;
+}
+
+AvlTreeNode<int> _rotateLeft(AvlTreeNode<int> x) {
+  AvlTreeNode<int> y = x.right!;
+  AvlTreeNode<int>? T2 = y.left;
+
+  // Perform rotation
+  y.left = x;
+  x.right = T2;
+
+  // Update heights
+  _updateHeight(x);
+  _updateHeight(y);
+
+  // Return new root
+  return y;
+}
