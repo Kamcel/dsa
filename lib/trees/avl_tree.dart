@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class AvlTreeNode<T> {
   T value;
   AvlTreeNode<T>? left;
@@ -6,7 +8,6 @@ class AvlTreeNode<T> {
 
   AvlTreeNode({required this.value, this.left, this.right, this.height = 0});
 }
-
 
 /*
 Function insert(node, newValue):
@@ -51,7 +52,39 @@ Function insert(node, newValue):
 
  */
 
+AvlTreeNode<int>? insert(AvlTreeNode<int>? node, int newNode) {
+  if (node == null) {
+    return AvlTreeNode(value: newNode);
+  }
 
+  if (newNode < node.value) {
+    node.left = insert(node.left, newNode);
+  } else if (newNode < node.value) {
+    node.right = insert(node.right, newNode);
+  } else {
+    return node;
+  }
+  _updateHeight(node);
+
+  int bf = _getBalanceFactor(node);
+  if (bf > 1 && newNode < node.left!.value) {
+    return _rotateRight(node);
+  }
+
+  if (bf < -1 && newNode > node.left!.value) {
+    return _rotateLeft(node);
+  }
+
+  if (bf > 1 && newNode < node.left!.value) {
+    node.left = _rotateLeft(node.left);
+    return _rotateRight(node);
+  }
+
+  if (bf < -1 && newNode > node.left!.value) {
+    node.right = _rotateRight(node.right);
+    return _rotateLeft(node);
+  }
+}
 /*
 FUNCTION delete(node, target):
     // -------------------------------------------------------------
@@ -126,3 +159,28 @@ FUNCTION getMinValueNode(node):
     RETURN current
 
 */
+
+void _updateHeight(AvlTreeNode<int>? node) {
+  if (node == null) return;
+
+  int leftSubTreeHeight = node.left?.height ?? -1;
+  int rightSubTreeHeight = node.right?.height ?? -1;
+
+  node.height = 1 + max(leftSubTreeHeight, rightSubTreeHeight);
+}
+
+int? _getHeight(AvlTreeNode<int>? node) {
+  if (node == null) return -1;
+}
+
+int _getBalanceFactor(AvlTreeNode<int>? node) {
+  if (node == null) {
+    return 0;
+  }
+  int balanceFactor = _getHeight(node.left)! - _getHeight(node.right)!;
+  return balanceFactor;
+}
+
+void _rotateRight(AvlTreeNode<int>? node) {}
+
+void _rotateLeft(AvlTreeNode<int>? node) {}
