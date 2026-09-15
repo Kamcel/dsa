@@ -86,6 +86,61 @@ AvlTreeNode<int>? insert(AvlTreeNode<int>? node, int newNode) {
   }
   return node;
 }
+
+void _updateHeight(AvlTreeNode<int>? node) {
+  if (node == null) return;
+
+  int leftSubTreeHeight = node.left?.height ?? -1;
+  int rightSubTreeHeight = node.right?.height ?? -1;
+
+  node.height = 1 + max(leftSubTreeHeight, rightSubTreeHeight);
+}
+
+int? _getHeight(AvlTreeNode<int>? node) {
+  if (node == null) return -1;
+  return node.height;
+}
+
+int _getBalanceFactor(AvlTreeNode<int>? node) {
+  if (node == null) {
+    return 0;
+  }
+  int balanceFactor = _getHeight(node.left)! - _getHeight(node.right)!;
+  return balanceFactor;
+}
+
+AvlTreeNode<int> _rotateRight(AvlTreeNode<int> y) {
+  AvlTreeNode<int> x = y.left!;
+  AvlTreeNode<int>? T2 = x.right;
+
+  // Perform rotation
+  x.right = y;
+  y.left = T2;
+
+  // Update heights
+  _updateHeight(y);
+  _updateHeight(x);
+
+  // Return new root
+  return x;
+}
+
+AvlTreeNode<int> _rotateLeft(AvlTreeNode<int> x) {
+  AvlTreeNode<int> y = x.right!;
+  AvlTreeNode<int>? T2 = y.left;
+
+  // Perform rotation
+  y.left = x;
+  x.right = T2;
+
+  // Update heights
+  _updateHeight(x);
+  _updateHeight(y);
+
+  // Return new root
+  return y;
+}
+
 /*
 FUNCTION delete(node, target):
     // -------------------------------------------------------------
@@ -161,56 +216,45 @@ FUNCTION getMinValueNode(node):
 
 */
 
-void _updateHeight(AvlTreeNode<int>? node) {
-  if (node == null) return;
+AvlTreeNode<int>? delete(AvlTreeNode<int>? node, int target) {
+  if (node == null) return null;
 
-  int leftSubTreeHeight = node.left?.height ?? -1;
-  int rightSubTreeHeight = node.right?.height ?? -1;
-
-  node.height = 1 + max(leftSubTreeHeight, rightSubTreeHeight);
-}
-
-int? _getHeight(AvlTreeNode<int>? node) {
-  if (node == null) return -1;
-  return node.height;
-}
-
-int _getBalanceFactor(AvlTreeNode<int>? node) {
-  if (node == null) {
-    return 0;
+  if (target < node.value) {
+    node.left = delete(node.left, target);
+  } else if (target > node.value) {
+    node.right = delete(node.right, target);
+  } else {
+    if (node.left == null) {
+      return node.right;
+    } else {
+      return node.right;
+    }
   }
-  int balanceFactor = _getHeight(node.left)! - _getHeight(node.right)!;
-  return balanceFactor;
+  AvlTreeNode<int> successor = _getMinValueNode(node.right);
+  node.value = successor.value;
+  node.right = delete(node.right, target);
+
+  _updateHeight(node);
+  int bf = _getBalanceFactor(node);
+  if (bf > 1) {
+    if (_getBalanceFactor(node) < 1) {
+      node.left = _rotateLeft(node.left);
+      return _rotateRight(node);
+    }
+  }
+  if (bf < -1) {
+    if (_getBalanceFactor(node) > 0) {
+      node.right = _rotateRight(node.right);
+      return _rotateLeft(node);
+    }
+  }
+  return node;
 }
 
-AvlTreeNode<int> _rotateRight(AvlTreeNode<int> y) {
-  AvlTreeNode<int> x = y.left!;
-  AvlTreeNode<int>? T2 = x.right;
-
-  // Perform rotation
-  x.right = y;
-  y.left = T2;
-
-  // Update heights
-  _updateHeight(y);
-  _updateHeight(x);
-
-  // Return new root
-  return x;
-}
-
-AvlTreeNode<int> _rotateLeft(AvlTreeNode<int> x) {
-  AvlTreeNode<int> y = x.right!;
-  AvlTreeNode<int>? T2 = y.left;
-
-  // Perform rotation
-  y.left = x;
-  x.right = T2;
-
-  // Update heights
-  _updateHeight(x);
-  _updateHeight(y);
-
-  // Return new root
-  return y;
+AvlTreeNode<int> _getMinValueNode(AvlTreeNode<int> node) {
+  AvlTreeNode<int> current = node;
+  while (current.left != null) {
+    current = current.left as AvlTreeNode<int>;
+  }
+  return current;
 }
