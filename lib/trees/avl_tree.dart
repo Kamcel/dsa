@@ -226,35 +226,35 @@ AvlTreeNode<int>? delete(AvlTreeNode<int>? node, int target) {
   } else {
     if (node.left == null) {
       return node.right;
-    } else {
-      return node.right;
+    } else if (node.right == null) {
+      return node.left;
     }
+    AvlTreeNode<int> successor = _getMinValueNode(node.right!);
+    node.value = successor.value;
+    node.right = delete(node.right, target);
   }
-  AvlTreeNode<int> successor = _getMinValueNode(node.right);
-  node.value = successor.value;
-  node.right = delete(node.right, target);
 
   _updateHeight(node);
   int bf = _getBalanceFactor(node);
+
   if (bf > 1) {
-    if (_getBalanceFactor(node) < 1) {
-      node.left = _rotateLeft(node.left);
-      return _rotateRight(node);
+    if (_getBalanceFactor(node) < 0) {
+      node.left = _rotateLeft(node.left!);
     }
+    return _rotateRight(node);
   }
   if (bf < -1) {
     if (_getBalanceFactor(node) > 0) {
-      node.right = _rotateRight(node.right);
-      return _rotateLeft(node);
+      node.right = _rotateRight(node.right!);
     }
+    return _rotateLeft(node);
   }
-  return node;
 }
 
 AvlTreeNode<int> _getMinValueNode(AvlTreeNode<int> node) {
   AvlTreeNode<int> current = node;
   while (current.left != null) {
-    current = current.left as AvlTreeNode<int>;
+    current = current.left!;
   }
   return current;
 }
