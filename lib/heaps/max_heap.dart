@@ -1,10 +1,6 @@
 class MaxHeap {
   final List<int> _heap = [];
 
-  // -----------------------------------------------------------------
-  // HELPER METHODS (From Image 1 & Image 2)
-  // -----------------------------------------------------------------
-  
   int _getParentIndex(int i) => (i - 1) ~/ 2;
   int _getLeftChildIndex(int i) => (2 * i) + 1;
   int _getRightChildIndex(int i) => (2 * i) + 2;
@@ -22,11 +18,7 @@ class MaxHeap {
     _heap[indexB] = temp;
   }
 
-  // -----------------------------------------------------------------
-  // CORE OPERATIONS
-  // -----------------------------------------------------------------
-
-  /// 1. Peek: O(1) Time | O(1) Space (Image 2)
+  /// 1. Peek
   int peek() {
     if (isEmpty) {
       throw StateError("Heap is empty!");
@@ -34,9 +26,9 @@ class MaxHeap {
     return _heap[0];
   }
 
-  /// 2. Insert (Sift-Up): O(log N) Time (Image 3)
+  /// 2. Insert (Sift-Up): O(log N) Time
   void insert(int value) {
-    _heap.add(value); // Add to end of array
+    _heap.add(value);
     _siftUp(_heap.length - 1);
   }
 
@@ -47,18 +39,18 @@ class MaxHeap {
         _heap[currentIndex] > _heap[_getParentIndex(currentIndex)]) {
       int parentIndex = _getParentIndex(currentIndex);
       _swap(currentIndex, parentIndex);
-      currentIndex = parentIndex; // Move rope pointer up
+      currentIndex = parentIndex;
     }
   }
 
-  /// 3. Remove Root / Extract Max (Sift-Down): O(log N) Time (Image 3 & 4)
+  /// 3. Remove Root / Extract Max (Sift-Down): O(log N) Time
   int extractMax() {
     if (isEmpty) {
       throw StateError("Heap is empty!");
     }
 
     int maxVal = _heap[0];
-    
+
     // Move last element to root and remove last element
     _heap[0] = _heap.last;
     _heap.removeLast();
@@ -117,3 +109,5 @@ class MaxHeap {
   @override
   String toString() => _heap.toString();
 }
+
+//...................................................................
