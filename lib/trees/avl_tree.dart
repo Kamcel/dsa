@@ -249,6 +249,7 @@ AvlTreeNode<int>? delete(AvlTreeNode<int>? node, int target) {
     }
     return _rotateLeft(node);
   }
+  return node;
 }
 
 AvlTreeNode<int> _getMinValueNode(AvlTreeNode<int> node) {
